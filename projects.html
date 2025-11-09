@@ -3,289 +3,244 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IKB - My Projects</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
-        }
-
-        /* Navigation */
-        nav {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 1.5rem 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #667eea;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: #764ba2;
-        }
-
-        /* Main Content */
-        .container {
-            max-width: 1200px;
-            margin: 3rem auto;
-            padding: 0 2rem;
-        }
-
-        h1 {
-            text-align: center;
-            color: white;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-
-        /* Website Cards Grid */
-        .websites-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-
-        .website-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .website-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-        }
-
-        .website-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 3rem;
-            font-weight: bold;
-        }
-
-        .website-content {
-            padding: 1.5rem;
-        }
-
-        .website-content h2 {
-            color: #667eea;
-            margin-bottom: 0.5rem;
-            font-size: 1.5rem;
-        }
-
-        .website-content p {
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-
-        .visit-btn {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: opacity 0.3s;
-        }
-
-        .visit-btn:hover {
-            opacity: 0.9;
-        }
-
-        /* Footer */
-        footer {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 3rem 2rem;
-            margin-top: 4rem;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .footer-content h3 {
-            color: #667eea;
-            margin-bottom: 1rem;
-            font-size: 1.8rem;
-        }
-
-        .contact-info {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-            margin: 1.5rem 0;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #666;
-        }
-
-        .note {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background: #f8f9fa;
-            border-radius: 8px;
-            color: #666;
-            font-style: italic;
-            line-height: 1.6;
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-
-            nav ul {
-                gap: 1rem;
-            }
-
-            .websites-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <meta name="description" content="Explore our portfolio of web development and design projects">
+    <title>IKB - Projects</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Navigation -->
     <nav>
         <ul>
             <li><a href="index.html">Home</a></li>
-            <li><a href="projects.html">Projects</a></li>
-            <li><a href="index.html#about">About</a></li>
-            <li><a href="index.html#contact">Contact</a></li>
+            <li><a href="projects.html" class="active">Projects</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="earning.html">Earning</a></li>
+            <li><a href="study.html">Study</a></li>
+            <li><a href="blogs.html">Blogs</a></li>
+            <li><a href="tips.html">Tips & Tricks</a></li>
+            <li><a href="contact.html">Contact</a></li>
         </ul>
     </nav>
 
-    <!-- Main Content -->
+    <!-- Page Header -->
     <div class="container">
-        <h1>My Web Projects</h1>
+        <h1>💼 Our Projects</h1>
+        <p class="subtitle">Explore our portfolio of innovative web solutions</p>
 
-        <!-- Websites Grid -->
-        <div class="websites-grid">
-            
-            <!-- Website Card 1 -->
-            <div class="website-card">
-                <div class="website-image">📷</div>
-                <div class="website-content">
-                    <h2>Photo Gallery - Type 1</h2>
-                    <p>A beautiful photo gallery showcasing stunning photography and visual content. Browse through collections of high-quality images with grid layout.</p>
-                    <a href="https://photo.ikb.com.np" class="visit-btn" target="_blank">Visit Site →</a>
-                </div>
-            </div>
-
-            <!-- Website Card 2 -->
-            <div class="website-card">
-                <div class="website-image">📸</div>
-                <div class="website-content">
-                    <h2>Photo Gallery - Type 2</h2>
-                    <p>An elegant photo gallery with masonry layout design. Features smooth transitions and lightbox view for enhanced image viewing experience.</p>
-                    <a href="https://photo2.ikb.com.np" class="visit-btn" target="_blank">Visit Site →</a>
-                </div>
-            </div>
-
-            <!-- Website Card 3 -->
-            <div class="website-card">
-                <div class="website-image">🖼️</div>
-                <div class="website-content">
-                    <h2>Photo Gallery - Type 3</h2>
-                    <p>Modern photo gallery with carousel slider and fullscreen mode. Perfect for showcasing portfolio and professional photography work.</p>
-                    <a href="https://photo3.ikb.com.np" class="visit-btn" target="_blank">Visit Site →</a>
-                </div>
-            </div>
-
-            <!-- Website Card 4 -->
-            <div class="website-card">
-                <div class="website-image">🎬</div>
-                <div class="website-content">
-                    <h2>Movie Database</h2>
-                    <p>Your ultimate destination for movie information, reviews, and entertainment content. Discover new films and classics.</p>
-                    <a href="https://movie.ikb.com.np" class="visit-btn" target="_blank">Visit Site →</a>
-                </div>
-            </div>
-
-            <!-- Template for adding new websites -->
-            <!-- 
-            <div class="website-card">
-                <div class="website-image">🌟</div>
-                <div class="website-content">
-                    <h2>Your Website Title</h2>
-                    <p>Description of your website goes here. Explain what the site is about and its main features.</p>
-                    <a href="https://yoursite.ikb.com.np" class="visit-btn" target="_blank">Visit Site →</a>
-                </div>
-            </div>
-            -->
-
+        <!-- Filter Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="filterProjects('all')">All Projects</button>
+            <button class="tab-btn" onclick="filterProjects('web')">Web Apps</button>
+            <button class="tab-btn" onclick="filterProjects('mobile')">Mobile</button>
+            <button class="tab-btn" onclick="filterProjects('design')">Design</button>
         </div>
+
+        <!-- Projects Grid -->
+        <div class="grid grid-3" id="projectsGrid">
+            <!-- E-Commerce Platform -->
+            <div class="card project-card" data-category="web">
+                <span class="icon-box">🛒</span>
+                <h3>E-Commerce Platform</h3>
+                <p>A full-featured online shopping platform with payment integration, inventory management, and user authentication.</p>
+                <div class="mb-2">
+                    <span class="badge badge-primary">React</span>
+                    <span class="badge badge-primary">Node.js</span>
+                    <span class="badge badge-primary">MongoDB</span>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <a href="#" class="btn btn-primary">View Demo</a>
+                    <a href="#" class="btn btn-secondary">Code</a>
+                </div>
+            </div>
+
+            <!-- Social Media Dashboard -->
+            <div class="card project-card" data-category="web">
+                <span class="icon-box">📊</span>
+                <h3>Social Media Dashboard</h3>
+                <p>Analytics dashboard for tracking social media performance across multiple platforms with real-time data visualization.</p>
+                <div class="mb-2">
+                    <span class="badge badge-primary">Vue.js</span>
+                    <span class="badge badge-primary">Chart.js</span>
+                    <span class="badge badge-primary">Firebase</span>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <a href="#" class="btn btn-primary">View Demo</a>
+                    <a href="#" class="btn btn-secondary">Code</a>
+                </div>
+            </div>
+
+            <!-- Task Management App -->
+            <div class="card project-card" data-category="mobile web">
+                <span class="icon-box">✅</span>
+                <h3>Task Management App</h3>
+                <p>Collaborative task management tool with drag-and-drop functionality, team assignments, and deadline tracking.</p>
+                <div class="mb-2">
+                    <span class="badge badge-primary">React Native</span>
+                    <span class="badge badge-primary">Redux</span>
+                    <span class="badge badge-primary">PostgreSQL</span>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <a href="#" class="btn btn-primary">View Demo</a>
+                    <a href="#" class="btn btn-secondary">Code</a>
+                </div>
+            </div>
+
+            <!-- Portfolio Website -->
+            <div class="card project-card" data-category="web design">
+                <span class="icon-box">🎨</span>
+                <h3>Portfolio Website</h3>
+                <p>Modern and responsive portfolio website with smooth animations, dark mode support, and contact form integration.</p>
+                <div class="mb-2">
+                    <span class="badge badge-primary">HTML5</span>
+                    <span class="badge badge-primary">CSS3</span>
+                    <span class="badge badge-primary">JavaScript</span>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <a href="#" class="btn btn-primary">View Demo</a>
+                    <a href="#" class="btn btn-secondary">Code</a>
+                </div>
+            </div>
+
+            <!-- Fitness Tracker -->
+            <div class="card project-card" data-category="mobile">
+                <span class="icon-box">💪</span>
+                <h3>Fitness Tracker</h3>
+                <p>Mobile app for tracking workouts, nutrition, and health metrics with personalized workout plans and progress charts.</p>
+                <div class="mb-2">
+                    <span class="badge badge-primary">Flutter</span>
+                    <span class="badge badge-primary">Dart</span>
+                    <span class="badge badge-primary">SQLite</span>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <a href="#" class="btn btn-primary">View Demo</a>
+                    <a href="#" class="btn btn-secondary">Code</a>
+                </div>
+            </div>
+
+            <!-- Weather App -->
+            <div class="card project-card" data-category="web mobile">
+                <span class="icon-box">🌤️</span>
+                <h3>Weather Application</h3>
+                <p>Real-time weather forecasting app with location detection, 7-day forecast, and weather alerts for multiple cities.</p>
+                <div class="mb-2">
+                    <span class="badge badge-primary">React</span>
+                    <span class="badge badge-primary">Weather API</span>
+                    <span class="badge badge-primary">Geolocation</span>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <a href="#" class="btn btn-primary">View Demo</a>
+                    <a href="#" class="btn btn-secondary">Code</a>
+                </div>
+            </div>
+
+            <!-- Blog Platform -->
+            <div class="card project-card" data-category="web">
+                <span class="icon-box">📝</span>
+                <h3>Blog Platform</h3>
+                <p>Full-stack blogging platform with Markdown support, comment system, tags, categories, and SEO optimization.</p>
+                <div class="mb-2">
+                    <span class="badge badge-primary">Next.js</span>
+                    <span class="badge badge-primary">Tailwind</span>
+                    <span class="badge badge-primary">MySQL</span>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <a href="#" class="btn btn-primary">View Demo</a>
+                    <a href="#" class="btn btn-secondary">Code</a>
+                </div>
+            </div>
+
+            <!-- Chat Application -->
+            <div class="card project-card" data-category="web mobile">
+                <span class="icon-box">💬</span>
+                <h3>Real-Time Chat App</h3>
+                <p>Instant messaging application with group chats, file sharing, emoji support, and end-to-end encryption.</p>
+                <div class="mb-2">
+                    <span class="badge badge-primary">Socket.io</span>
+                    <span class="badge badge-primary">Express</span>
+                    <span class="badge badge-primary">Redis</span>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <a href="#" class="btn btn-primary">View Demo</a>
+                    <a href="#" class="btn btn-secondary">Code</a>
+                </div>
+            </div>
+
+            <!-- Recipe Finder -->
+            <div class="card project-card" data-category="web design">
+                <span class="icon-box">🍳</span>
+                <h3>Recipe Finder</h3>
+                <p>Discover and save recipes from around the world with ingredient search, nutrition info, and cooking instructions.</p>
+                <div class="mb-2">
+                    <span class="badge badge-primary">Angular</span>
+                    <span class="badge badge-primary">Recipe API</span>
+                    <span class="badge badge-primary">Material UI</span>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <a href="#" class="btn btn-primary">View Demo</a>
+                    <a href="#" class="btn btn-secondary">Code</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <section class="mt-4">
+            <div class="card text-center">
+                <h2>Have a Project in Mind?</h2>
+                <p class="mb-3">Let's collaborate and bring your ideas to life!</p>
+                <a href="contact.html" class="btn btn-primary">Get in Touch</a>
+            </div>
+        </section>
     </div>
 
-    <!-- Footer with Contact -->
+    <!-- Footer -->
     <footer>
         <div class="footer-content">
-            <h3>Get In Touch</h3>
-            
-            <div class="contact-info">
-                <div class="contact-item">
-                    <span>📧</span>
-                    <span>contact@ikb.com.np</span>
-                </div>
-                <div class="contact-item">
-                    <span>📱</span>
-                    <span>+977 XXX-XXXXXXX</span>
-                </div>
-                <div class="contact-item">
-                    <span>📍</span>
-                    <span>Kathmandu, Nepal</span>
+            <div class="footer-section">
+                <h3>About IKB</h3>
+                <p>Your trusted source for projects, learning resources, and professional growth opportunities.</p>
+                <div class="social-links">
+                    <a href="#" title="Facebook">📘</a>
+                    <a href="#" title="Twitter">🐦</a>
+                    <a href="#" title="LinkedIn">💼</a>
+                    <a href="#" title="GitHub">🐙</a>
                 </div>
             </div>
 
-            <div class="note">
-                <strong>Note:</strong> This is a personal portfolio showcasing various web projects. All websites are designed and maintained for personal use and experimentation. Feel free to explore each project and reach out if you have any questions or suggestions. New projects are added regularly as I continue to learn and develop new skills.
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
             </div>
 
-            <p style="margin-top: 2rem; color: #999;">© 2025 IKB. All rights reserved.</p>
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="study.html">Study Materials</a></li>
+                    <li><a href="blogs.html">Blog Posts</a></li>
+                    <li><a href="tips.html">Tips & Tricks</a></li>
+                    <li><a href="earning.html">Earning Guides</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul>
+                    <li>📧 Email: info@ikb.com</li>
+                    <li>📱 Phone: +977-XXX-XXXX</li>
+                    <li>📍 Location: Dhulikhel, Nepal</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 IKB. All rights reserved. Made with ❤️ in Nepal</p>
         </div>
     </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
