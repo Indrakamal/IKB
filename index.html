@@ -3,309 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="IKB - Your gateway to projects, learning, and growth">
     <title>IKB - Home</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
-        }
-
-        /* Navigation */
-        nav {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 1.5rem 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #667eea;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: #764ba2;
-        }
-
-        /* Hero Section */
-        .hero {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 6rem 2rem;
-            text-align: center;
-            color: white;
-        }
-
-        .hero h1 {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            animation: fadeInDown 1s ease;
-        }
-
-        .hero p {
-            font-size: 1.5rem;
-            margin-bottom: 3rem;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-            animation: fadeInUp 1s ease;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            animation: fadeIn 1.5s ease;
-        }
-
-        .btn {
-            padding: 1rem 2.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .btn-primary {
-            background: white;
-            color: #667eea;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 2px solid white;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-        }
-
-        /* Features Section */
-        .features {
-            max-width: 1200px;
-            margin: 4rem auto;
-            padding: 0 2rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 2rem;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .feature-card h3 {
-            color: #667eea;
-            margin-bottom: 0.5rem;
-        }
-
-        .feature-card p {
-            color: #666;
-            line-height: 1.6;
-        }
-
-        /* Footer */
-        footer {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 3rem 2rem;
-            margin-top: 4rem;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .footer-content h3 {
-            color: #667eea;
-            margin-bottom: 1rem;
-            font-size: 1.8rem;
-        }
-
-        .contact-info {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-            margin: 1.5rem 0;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #666;
-        }
-
-        .note {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background: #f8f9fa;
-            border-radius: 8px;
-            color: #666;
-            font-style: italic;
-            line-height: 1.6;
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero p {
-                font-size: 1.2rem;
-            }
-
-            nav ul {
-                gap: 1rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Navigation -->
     <nav>
         <ul>
-            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html" class="active">Home</a></li>
             <li><a href="projects.html">Projects</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="earning.html">Earning</a></li>
+            <li><a href="study.html">Study</a></li>
+            <li><a href="blogs.html">Blogs</a></li>
+            <li><a href="tips.html">Tips & Tricks</a></li>
+            <li><a href="contact.html">Contact</a></li>
         </ul>
     </nav>
 
     <!-- Hero Section -->
-    <div class="hero">
+    <section class="hero">
         <h1>Welcome to IKB</h1>
-        <p>Exploring the digital world through creative web projects</p>
-        <div class="cta-buttons">
-            <a href="projects.html" class="btn btn-primary">View My Projects</a>
-            <a href="#contact" class="btn btn-secondary">Get In Touch</a>
-        </div>
+        <p>Your Gateway to Projects, Learning, and Growth</p>
+        <a href="projects.html" class="cta-button">Explore Projects</a>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Features Section -->
+        <section class="mb-4">
+            <h2>What We Offer</h2>
+            <div class="grid grid-3">
+                <div class="card">
+                    <span class="icon-box">💼</span>
+                    <h3>Professional Projects</h3>
+                    <p>Explore a diverse portfolio of web development, design, and creative projects that showcase innovation and excellence.</p>
+                    <a href="projects.html" class="btn btn-primary mt-2">View Projects</a>
+                </div>
+
+                <div class="card">
+                    <span class="icon-box">📚</span>
+                    <h3>Learning Resources</h3>
+                    <p>Access comprehensive study materials, tutorials, and guides to accelerate your learning journey in technology and beyond.</p>
+                    <a href="study.html" class="btn btn-primary mt-2">Start Learning</a>
+                </div>
+
+                <div class="card">
+                    <span class="icon-box">💡</span>
+                    <h3>Tips & Insights</h3>
+                    <p>Discover practical tips, tricks, and insights that help you work smarter, not harder in your daily life and career.</p>
+                    <a href="tips.html" class="btn btn-primary mt-2">Get Tips</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="mb-4">
+            <div class="card">
+                <h2>Our Impact</h2>
+                <div class="grid grid-4">
+                    <div class="stat-box">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">Projects Completed</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">100+</span>
+                        <span class="stat-label">Study Resources</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">200+</span>
+                        <span class="stat-label">Tips Shared</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">1000+</span>
+                        <span class="stat-label">Happy Visitors</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Content Section -->
+        <section class="mb-4">
+            <h2>Featured Content</h2>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>🎨 Latest Project</h3>
+                    <p class="mb-2">Check out our newest web application featuring modern design patterns and cutting-edge technology stack.</p>
+                    <div class="mb-2">
+                        <span class="badge badge-primary">React</span>
+                        <span class="badge badge-primary">Node.js</span>
+                        <span class="badge badge-primary">MongoDB</span>
+                    </div>
+                    <a href="projects.html" class="btn btn-secondary">Learn More</a>
+                </div>
+
+                <div class="card">
+                    <h3>📝 Recent Blog Post</h3>
+                    <p class="mb-2">Dive into our latest article about best practices in modern web development and user experience design.</p>
+                    <div class="mb-2">
+                        <span class="badge badge-secondary">Web Development</span>
+                        <span class="badge badge-secondary">UX Design</span>
+                    </div>
+                    <a href="blogs.html" class="btn btn-secondary">Read More</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="mb-4">
+            <div class="card text-center">
+                <h2>Ready to Get Started?</h2>
+                <p class="mb-3">Join us on this exciting journey of learning, creating, and growing together.</p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="contact.html" class="btn btn-primary">Contact Us</a>
+                    <a href="about.html" class="btn btn-secondary">Learn More</a>
+                </div>
+            </div>
+        </section>
     </div>
 
-    <!-- Features Section -->
-    <div class="features">
-        <div class="feature-card">
-            <div class="feature-icon">🎨</div>
-            <h3>Creative Design</h3>
-            <p>Beautiful and modern web designs that capture attention and provide great user experience</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="feature-icon">⚡</div>
-            <h3>Fast Performance</h3>
-            <p>Optimized websites that load quickly and run smoothly across all devices</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="feature-icon">📱</div>
-            <h3>Fully Responsive</h3>
-            <p>All projects are mobile-friendly and work perfectly on any screen size</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="feature-icon">🔧</div>
-            <h3>Custom Solutions</h3>
-            <p>Each project is built with specific needs and purposes in mind</p>
-        </div>
-    </div>
-
-    <!-- Footer with Contact -->
-    <footer id="contact">
+    <!-- Footer -->
+    <footer>
         <div class="footer-content">
-            <h3>Get In Touch</h3>
-            
-            <div class="contact-info">
-                <div class="contact-item">
-                    <span>📧</span>
-                    <span>contact@ikb.com.np</span>
-                </div>
-                <div class="contact-item">
-                    <span>📱</span>
-                    <span>+977 XXX-XXXXXXX</span>
-                </div>
-                <div class="contact-item">
-                    <span>📍</span>
-                    <span>Kathmandu, Nepal</span>
+            <div class="footer-section">
+                <h3>About IKB</h3>
+                <p>Your trusted source for projects, learning resources, and professional growth opportunities.</p>
+                <div class="social-links">
+                    <a href="#" title="Facebook">📘</a>
+                    <a href="#" title="Twitter">🐦</a>
+                    <a href="#" title="LinkedIn">💼</a>
+                    <a href="#" title="GitHub">🐙</a>
                 </div>
             </div>
 
-            <div class="note">
-                <strong>Note:</strong> This is a personal portfolio showcasing various web projects. All websites are designed and maintained for personal use and experimentation. Feel free to explore each project and reach out if you have any questions or suggestions.
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
             </div>
 
-            <p style="margin-top: 2rem; color: #999;">© 2025 IKB. All rights reserved.</p>
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="study.html">Study Materials</a></li>
+                    <li><a href="blogs.html">Blog Posts</a></li>
+                    <li><a href="tips.html">Tips & Tricks</a></li>
+                    <li><a href="earning.html">Earning Guides</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul>
+                    <li>📧 Email: info@ikb.com</li>
+                    <li>📱 Phone: +977-XXX-XXXX</li>
+                    <li>📍 Location: Dhulikhel, Nepal</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 IKB. All rights reserved. Made with ❤️ in Nepal</p>
         </div>
     </footer>
 </body>
