@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Practical tips and tricks for productivity, coding, design, and life">
+    <title>IKB - Tips & Tricks</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="earning.html">Earning</a></li>
+            <li><a href="study.html">Study</a></li>
+            <li><a href="blogs.html">Blogs</a></li>
+            <li><a href="tips.html" class="active">Tips & Tricks</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="container">
+        <h1>💡 Tips & Tricks</h1>
+        <p class="subtitle">Practical tips for everyday life and work</p>
+
+        <!-- Category Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showCategory('productivity')">⚡ Productivity</button>
+            <button class="tab-btn" onclick="showCategory('coding')">💻 Coding</button>
+            <button class="tab-btn" onclick="showCategory('design')">🎨 Design</button>
+            <button class="tab-btn" onclick="showCategory('life')">🌟 Life Hacks</button>
+        </div>
+
+        <!-- Productivity Tips -->
+        <div id="productivity" class="tips-section active">
+            <div class="grid grid-3">
+                <div class="card">
+                    <div class="number-badge">1</div>
+                    <h3>The Pomodoro Technique</h3>
+                    <p>Work in focused 25-minute intervals followed by 5-minute breaks. After four pomodoros, take a longer 15-30 minute break.</p>
+                    <div class="example-box">
+                        <strong>How to apply:</strong>
+                        Set a timer for 25 minutes, eliminate distractions, focus on one task, then reward yourself with a break.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="number-badge">2</div>
+                    <h3>Two-Minute Rule</h3>
+                    <p>If a task takes less than two minutes to complete, do it immediately instead of adding it to your to-do list.</p>
+                    <div class="example-box">
+                        <strong>Examples:</strong>
+                        Reply to quick emails, file documents, make short phone calls, clean your desk.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="number-badge">3</div>
+                    <h3>Batch Similar Tasks</h3>
+                    <p>Group similar tasks together and complete them in one dedicated time block to minimize context switching.</p>
+                    <div class="example-box">
+                        <strong>Try batching:</strong>
+                        All emails at once, all calls together, all meetings in one afternoon.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="number-badge">4</div>
+                    <h3>Digital Detox Hours</h3>
+                    <p>Set specific hours each day where you disconnect from digital devices to improve focus and mental health.</p>
+                    <div class="example-box">
+                        <strong>Suggestion:</strong>
+                        No phones for the first hour after waking up and the last hour before bed.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="number-badge">5</div>
+                    <h3>Use Keyboard Shortcuts</h3>
+                    <p>Master essential keyboard shortcuts to save hours of time over the course of a year.</p>
+                    <div class="example-box">
+                        <strong>Essential shortcuts:</strong>
+                        Ctrl+C (Copy), Ctrl+V (Paste), Alt+Tab (Switch windows), Ctrl+Z (Undo)
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="number-badge">6</div>
+                    <h3>Morning Routine</h3>
+                    <p>Establish a consistent morning routine that energizes you and sets a positive tone for the day.</p>
+                    <div class="example-box">
+                        <strong>Example routine:</strong>
+                        Wake up, exercise, healthy breakfast, review goals, tackle most important task.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Coding Tips -->
+        <div id="coding" class="tips-section">
+            <div class="grid grid-3">
+                <div class="card">
+                    <div class="number-badge">1</div>
+                    <h3>Write Clean Code</h3>
+                    <p>Use meaningful variable names, keep functions small, and add comments to explain why, not what.</p>
+                    <div class="example-box">
+                        <strong>Good:</strong> <code>calculateUserAge(birthDate)</code><br>
+                        <strong>Bad:</strong> <code>calc(x)</code>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="number-badge">2</div>
+                    <h3>Use Version Control</h3>
+                    <p>Always use Git for version control. Commit frequently with clear, descriptive messages.</p>
+                    <div class="example-box">
+                        <strong>Good commit:</strong><br>
+                        <code>git commit -m "Add user authentication feature"</code>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="number-badge">3</div>
+                    <h3>Debug Systematically</h3>
+                    <p>When debugging, isolate the problem, reproduce it consistently, then fix and verify the solution.</p>
+                    <div class="example-box">
+                        <strong>Steps:</strong>
+                        Read error messages, use console.log, check docs, search Stack Overflow.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="number-badge">4</div>
+                    <h3>Learn One Thing at a Time</h3>
+                    <p>Focus on mastering one language or technology before jumping to the next. Depth beats breadth.</p>
+                    <div class="example-box">
+                        <strong>Better approach:</strong>
+                        Master JavaScript fundamentals before learning React, Vue, or Angular.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="number-badge">5</div>
+                    <h3>Read Others' Code</h3>
+                    <p>Study well-written open-source projects to learn best practices and different coding styles.</p>
+                    <div class="example-box">
+                        <strong>Resources:</strong>
+                        GitHub trending repos, code review platforms, documentation examples.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="number-badge">6</div>
+                    <h3>Test Your Code</h3>
+                    <p>Write tests to catch bugs early and ensure your code works as expected when changes are made.</p>
+                    <div class="example-box">
+                        <strong>Types of tests:</strong>
+                        Unit tests, integration tests, end-to-end tests.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Design Tips -->
+        <div id="design" class="tips-section">
+            <div class="grid grid-3">
+                <div class="card">
+                    <div class="number-badge">1</div>
+                    <h3>Use White Space</h3>
+                    <p>Don't be afraid of empty space. It helps guide the eye and makes content more readable and professional.</p>
+                    <div class="example-box">
+                        <strong>Tip:</strong>
+                        Add padding and margins generously. Cramped designs feel amateurish.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="number-badge">2</div>
+                    <h3>Limit Your Color Palette</h3>
+                    <p>Stick to 2-3 main colors plus neutrals. Too many colors create visual chaos.</p>
+                    <div class="example-box">
+                        <strong>Formula:</strong>
+                        One primary color, one accent color, shades of gray for text and backgrounds.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="number-badge">3</div>
+                    <h3>Typography Hierarchy</h3>
+                    <p>Use font size, weight, and spacing to create clear visual hierarchy in your text.</p>
+                    <div class="example-box">
+                        <strong>Example:</strong>
+                        Headings (24-32px bold), subheadings (18-20px), body text (16px regular).
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="number-badge">4</div>
+                    <h3>Consistent Spacing</h3>
+                    <p>Use a spacing scale (like 4, 8, 16, 24, 32px) for consistent margins and padding throughout your design.</p>
+                    <div class="example-box">
+                        <strong>Pro tip:</strong>
+                        Set up spacing variables in CSS for consistency across your project.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="number-badge">5</div>
+                    <h3>Design for Mobile First</h3>
+                    <p>Start designing for small screens first, then scale up. It's easier than trying to shrink a desktop design.</p>
+                    <div class="example-box">
+                        <strong>Benefit:</strong>
+                        Forces you to prioritize content and creates cleaner, more focused designs.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="number-badge">6</div>
+                    <h3>Use High-Quality Images</h3>
+                    <p>Invest in quality images or use professional free stock photo sites. Poor images ruin great designs.</p>
+                    <div class="example-box">
+                        <strong>Resources:</strong>
+                        Unsplash, Pexels, Pixabay for free high-quality photos.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Life Hacks -->
+        <div id="life" class="tips-section">
+            <div class="grid grid-3">
+                <div class="card">
+                    <div class="number-badge">1</div>
+                    <h3>The 5-Second Rule</h3>
+                    <p>When you have an impulse to act on a goal, count down 5-4-3-2-1 and move before your brain stops you.</p>
+                    <div class="example-box">
+                        <strong>Use it for:</strong>
+                        Waking up early, starting exercise, making difficult phone calls, speaking up.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="number-badge">2</div>
+                    <h3>Meal Prep Sundays</h3>
+                    <p>Spend 2-3 hours on Sunday preparing meals for the week. Saves time, money, and promotes healthy eating.</p>
+                    <div class="example-box">
+                        <strong>Quick wins:</strong>
+                        Cook rice/pasta in bulk, chop vegetables, prepare proteins, portion into containers.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="number-badge">3</div>
+                    <h3>20/20/20 Rule for Eyes</h3>
+                    <p>Every 20 minutes, look at something 20 feet away for 20 seconds to reduce eye strain from screens.</p>
+                    <div class="example-box">
+                        <strong>Set reminders:</strong>
+                        Use apps or browser extensions to remind you to take these breaks.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="number-badge">4</div>
+                    <h3>Learn While Commuting</h3>
+                    <p>Use commute time for podcasts, audiobooks, or language learning apps instead of scrolling social media.</p>
+                    <div class="example-box">
+                        <strong>Recommendations:</strong>
+                        Educational podcasts, skill-building audiobooks, language apps like Duolingo.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="number-badge">5</div>
+                    <h3>Automate Bill Payments</h3>
+                    <p>Set up automatic payments for recurring bills to never miss a deadline and avoid late fees.</p>
+                    <div class="example-box">
+                        <strong>Automate:</strong>
+                        Rent, utilities, subscriptions, insurance, loan payments.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="number-badge">6</div>
+                    <h3>Weekly Review Habit</h3>
+                    <p>Spend 30 minutes each week reviewing what went well, what didn't, and planning for the next week.</p>
+                    <div class="example-box">
+                        <strong>Questions to ask:</strong>
+                        What did I accomplish? What could I improve? What are my priorities?
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About IKB</h3>
+                <p>Your trusted source for projects, learning resources, and professional growth opportunities.</p>
+                <div class="social-links">
+                    <a href="#" title="Facebook">📘</a>
+                    <a href="#" title="Twitter">🐦</a>
+                    <a href="#" title="LinkedIn">💼</a>
+                    <a href="#" title="GitHub">🐙</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="study.html">Study Materials</a></li>
+                    <li><a href="blogs.html">Blog Posts</a></li>
+                    <li><a href="tips.html">Tips & Tricks</a></li>
+                    <li><a href="earning.html">Earning Guides</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul>
+                    <li>📧 Email: info@ikb.com</li>
+                    <li>📱 Phone: +977-XXX-XXXX</li>
+                    <li>📍 Location: Dhulikhel, Nepal</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 IKB. All rights reserved. Made with ❤️ in Nepal</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
