@@ -27,6 +27,32 @@ body {
     min-height: 100vh;
     color: var(--text-dark);
     line-height: 1.6;
+    position: relative;
+}
+
+/* Background Image Overlay */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><defs><linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:%23667eea;stop-opacity:0.9" /><stop offset="100%" style="stop-color:%23764ba2;stop-opacity:0.8" /></linearGradient></defs><rect width="1920" height="1080" fill="url(%23grad1)"/></svg>');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    opacity: 0.3;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Alternative: Use actual image background (uncomment and add your image path) */
+body.with-background-image::before {
+    background-image: linear-gradient(rgba(102, 126, 234, 0.85), rgba(118, 75, 162, 0.85)), 
+                      url('path-to-your-image.jpg');
+    background-blend-mode: overlay;
+    opacity: 1;
 }
 
 /* Navigation Styles */
