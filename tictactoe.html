@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe - IKB Games</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            transition: transform 0.3s;
+        }
+
+        .back-btn:hover {
+            transform: translateX(-5px);
+        }
+
+        .game-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .game-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .game-info {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .current-player {
+            font-size: 1.3rem;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .scores {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 1.5rem;
+        }
+
+        .score-box {
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            flex: 1;
+            margin: 0 0.5rem;
+        }
+
+        .score-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .score-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-width: 400px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .cell {
+            aspect-ratio: 1;
+            background: #f8f9fa;
+            border: 3px solid #667eea;
+            border-radius: 8px;
+            font-size: 3rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .cell:hover:not(.taken) {
+            background: #e9ecef;
+            transform: scale(1.05);
+        }
+
+        .cell.taken {
+            cursor: not-allowed;
+        }
+
+        .cell.X {
+            color: #667eea;
+        }
+
+        .cell.O {
+            color: #764ba2;
+        }
+
+        .cell.winner {
+            background: #d4edda;
+            animation: pulse 0.5s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .match-history {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .match-history h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .history-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .history-item.draw {
+            border-left-color: #6c757d;
+        }
+
+        .match-number {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .match-result {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .match-result.winner {
+            color: #28a745;
+        }
+
+        .match-result.draw {
+            color: #6c757d;
+        }
+
+        .match-time {
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        .empty-history {
+            text-align: center;
+            color: #999;
+            padding: 2rem;
+        }
+
+        @media (max-width: 968px) {
+            .game-container {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .cell {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="projects.html" class="back-btn">← Back to Projects</a>
+        
+        <h1>🎮 Tic Tac Toe</h1>
+
+        <div class="game-container">
+            <div class="game-section">
+                <div class="game-info">
+                    <div class="current-player" id="currentPlayer">Player 1's Turn (X)</div>
+                    
+                    <div class="scores">
+                        <div class="score-box">
+                            <div class="score-label">Player 1 (X)</div>
+                            <div class="score-value" id="p1Score">0</div>
+                        </div>
+                        <div class="score-box">
+                            <div class="score-label">Draws</div>
+                            <div class="score-value" id="drawScore">0</div>
+                        </div>
+                        <div class="score-box">
+                            <div class="score-label">Player 2 (O)</div>
+                            <div class="score-value" id="p2Score">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="board" id="board">
+                    <div class="cell" data-index="0"></div>
+                    <div class="cell" data-index="1"></div>
+                    <div class="cell" data-index="2"></div>
+                    <div class="cell" data-index="3"></div>
+                    <div class="cell" data-index="4"></div>
+                    <div class="cell" data-index="5"></div>
+                    <div class="cell" data-index="6"></div>
+                    <div class="cell" data-index="7"></div>
+                    <div class="cell" data-index="8"></div>
+                </div>
+
+                <div class="controls">
+                    <button class="btn btn-primary" onclick="resetGame()">New Game</button>
+                    <button class="btn btn-secondary" onclick="resetAll()">Reset All</button>
+                </div>
+            </div>
+
+            <div class="match-history">
+                <h2>📊 Last 10 Matches</h2>
+                <div class="history-list" id="historyList">
+                    <div class="empty-history">No matches played yet. Start playing!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let board = ['', '', '', '', '', '', '', '', ''];
+        let currentPlayer = 'X';
+        let gameActive = true;
+        let scores = {
+            p1: 0,
+            p2: 0,
+            draw: 0
+        };
+        let matchHistory = [];
+        let matchCount = 0;
+
+        const winningConditions = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+
+        const cells = document.querySelectorAll('.cell');
+        const currentPlayerDisplay = document.getElementById('currentPlayer');
+
+        // Load saved data from memory
+        loadGameData();
+
+        cells.forEach(cell => {
+            cell.addEventListener('click', handleCellClick);
+        });
+
+        function handleCellClick(e) {
+            const index = e.target.getAttribute('data-index');
+            
+            if (board[index] !== '' || !gameActive) {
+                return;
+            }
+
+            board[index] = currentPlayer;
+            e.target.textContent = currentPlayer;
+            e.target.classList.add('taken', currentPlayer);
+
+            checkResult();
+        }
+
+        function checkResult() {
+            let roundWon = false;
+            let winningCells = [];
+
+            for (let i = 0; i < winningConditions.length; i++) {
+                const [a, b, c] = winningConditions[i];
+                if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                    roundWon = true;
+                    winningCells = [a, b, c];
+                    break;
+                }
+            }
+
+            if (roundWon) {
+                gameActive = false;
+                const winner = currentPlayer === 'X' ? 'Player 1' : 'Player 2';
+                currentPlayerDisplay.textContent = `${winner} Wins! 🎉`;
+                
+                // Highlight winning cells
+                winningCells.forEach(index => {
+                    cells[index].classList.add('winner');
+                });
+
+                // Update scores
+                if (currentPlayer === 'X') {
+                    scores.p1++;
+                } else {
+                    scores.p2++;
+                }
+                updateScores();
+                addToHistory(winner);
+                saveGameData();
+                return;
+            }
+
+            // Check for draw
+            if (!board.includes('')) {
+                gameActive = false;
+                currentPlayerDisplay.textContent = "It's a Draw! 🤝";
+                scores.draw++;
+                updateScores();
+                addToHistory('Draw');
+                saveGameData();
+                return;
+            }
+
+            // Switch player
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            currentPlayerDisplay.textContent = `Player ${currentPlayer === 'X' ? '1' : '2'}'s Turn (${currentPlayer})`;
+        }
+
+        function resetGame() {
+            board = ['', '', '', '', '', '', '', '', ''];
+            currentPlayer = 'X';
+            gameActive = true;
+            currentPlayerDisplay.textContent = "Player 1's Turn (X)";
+            
+            cells.forEach(cell => {
+                cell.textContent = '';
+                cell.classList.remove('taken', 'X', 'O', 'winner');
+            });
+        }
+
+        function resetAll() {
+            if (confirm('This will reset all scores and match history. Are you sure?')) {
+                resetGame();
+                scores = { p1: 0, p2: 0, draw: 0 };
+                matchHistory = [];
+                matchCount = 0;
+                updateScores();
+                updateHistory();
+                saveGameData();
+            }
+        }
+
+        function updateScores() {
+            document.getElementById('p1Score').textContent = scores.p1;
+            document.getElementById('p2Score').textContent = scores.p2;
+            document.getElementById('drawScore').textContent = scores.draw;
+        }
+
+        function addToHistory(result) {
+            matchCount++;
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            
+            matchHistory.unshift({
+                match: matchCount,
+                result: result,
+                time: timeString
+            });
+
+            // Keep only last 10 matches
+            if (matchHistory.length > 10) {
+                matchHistory.pop();
+            }
+
+            updateHistory();
+        }
+
+        function updateHistory() {
+            const historyList = document.getElementById('historyList');
+            
+            if (matchHistory.length === 0) {
+                historyList.innerHTML = '<div class="empty-history">No matches played yet. Start playing!</div>';
+                return;
+            }
+
+            historyList.innerHTML = matchHistory.map(match => `
+                <div class="history-item ${match.result === 'Draw' ? 'draw' : ''}">
+                    <span class="match-number">Match #${match.match}</span>
+                    <span class="match-result ${match.result === 'Draw' ? 'draw' : 'winner'}">${match.result}</span>
+                    <span class="match-time">${match.time}</span>
+                </div>
+            `).join('');
+        }
+
+        function saveGameData() {
+            const gameData = {
+                scores: scores,
+                matchHistory: matchHistory,
+                matchCount: matchCount
+            };
+            localStorage.setItem('tictactoeData', JSON.stringify(gameData));
+        }
+
+        function loadGameData() {
+            const saved = localStorage.getItem('tictactoeData');
+            if (saved) {
+                const data = JSON.parse(saved);
+                scores = data.scores || { p1: 0, p2: 0, draw: 0 };
+                matchHistory = data.matchHistory || [];
+                matchCount = data.matchCount || 0;
+                updateScores();
+                updateHistory();
+            }
+        }
+    </script>
+</body>
+</html>
