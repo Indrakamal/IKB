@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IKB - Passive Income Strategies</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #764ba2;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            margin: 2rem 0 1rem 2rem;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 0 2rem;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: white;
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .method-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .method-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .method-icon {
+            font-size: 3rem;
+        }
+
+        .method-header h2 {
+            color: #667eea;
+            font-size: 2rem;
+        }
+
+        .method-content h3 {
+            color: #667eea;
+            margin: 1.5rem 0 1rem;
+            font-size: 1.3rem;
+        }
+
+        .method-content p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .method-content ul {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .method-content li {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 0.5rem;
+        }
+
+        .difficulty-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-right: 1rem;
+        }
+
+        .easy {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .hard {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .time-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: #d1ecf1;
+            color: #0c5460;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .pros, .cons {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .pros {
+            border-left: 4px solid #28a745;
+        }
+
+        .cons {
+            border-left: 4px solid #dc3545;
+        }
+
+        .pros h4 {
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+
+        .cons h4 {
+            color: #dc3545;
+            margin-bottom: 1rem;
+        }
+
+        .action-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 1rem;
+            transition: opacity 0.3s;
+        }
+
+        .action-button:hover {
+            opacity: 0.9;
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        footer p {
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+
+            .method-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="earning.html">Earning</a></li>
+            <li><a href="study.html">Study</a></li>
+            <li><a href="blogs.html">Blogs</a></li>
+            <li><a href="tips.html">Tips & Tricks</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <a href="earning.html" class="back-link">← Back to Earning Hub</a>
+
+    <div class="container">
+        <h1>💤 Passive Income Strategies</h1>
+        <p class="subtitle">Build income streams that work for you 24/7</p>
+
+        <!-- Dividend Investing -->
+        <div class="method-card">
+            <div class="method-header">
+                <div class="method-icon">📊</div>
+                <div>
+                    <h2>Dividend Investing</h2>
+                    <span class="difficulty-badge medium">Medium Difficulty</span>
+                    <span class="time-badge">⏱️ Long-term (Years)</span>
+                </div>
+            </div>
+            <div class="method-content">
+                <p>Invest in dividend-paying stocks or funds that distribute a portion of company profits to shareholders regularly. Build a portfolio that generates consistent quarterly or monthly income.</p>
+
+                <h3>How It Works</h3>
+                <ul>
+                    <li>Buy shares of dividend-paying companies</li>
+                    <li>Receive regular dividend payments (quarterly/monthly)</li>
+                    <li>Reinvest dividends to compound growth</li>
+                    <li>Build portfolio to $100k+ for meaningful income</li>
+                </ul>
+
+                <h3>Initial Investment</h3>
+                <p>$1,000 - $100,000+ (Start small, grow over time)</p>
+
+                <h3>Potential Returns</h3>
+                <p>3-6% annual dividend yield + potential stock appreciation</p>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ Pros</h4>
+                        <ul>
+                            <li>Truly passive once set up</li>
+                            <li>Regular, predictable income</li>
+                            <li>Potential for capital gains</li>
+                            <li>Tax advantages in many countries</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ Cons</h4>
+                        <ul>
+                            <li>Requires significant capital</li>
+                            <li>Market risk and volatility</li>
+                            <li>Takes years to build substantial income</li>
+                            <li>Dividends can be cut or suspended</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <a href="#" class="action-button">Learn More About Dividend Investing →</a>
+            </div>
+        </div>
+
+        <!-- Digital Products -->
+        <div class="method-card">
+            <div class="method-header">
+                <div class="method-icon">📱</div>
+                <div>
+                    <h2>Digital Products</h2>
+                    <span class="difficulty-badge easy">Easy to Start</span>
+                    <span class="time-badge">⏱️ Medium-term (Months)</span>
+                </div>
+            </div>
+            <div class="method-content">
+                <p>Create and sell digital products like eBooks, courses, templates, stock photos, music, or software. Create once, sell unlimited times with no inventory or shipping costs.</p>
+
+                <h3>Popular Digital Products</h3>
+                <ul>
+                    <li><strong>eBooks:</strong> Write guides, stories, or educational content</li>
+                    <li><strong>Online Courses:</strong> Teach skills on platforms like Udemy, Teachable</li>
+                    <li><strong>Design Templates:</strong> Canva templates, website themes, graphics</li>
+                    <li><strong>Stock Photos/Videos:</strong> Sell on Shutterstock, Adobe Stock</li>
+                    <li><strong>Software/Apps:</strong> Tools, plugins, mobile apps</li>
+                </ul>
+
+                <h3>Initial Investment</h3>
+                <p>$0 - $500 (Tools, hosting, marketing)</p>
+
+                <h3>Potential Income</h3>
+                <p>$100 - $10,000+/month (depends on product and marketing)</p>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ Pros</h4>
+                        <ul>
+                            <li>Low startup cost</li>
+                            <li>Create once, sell forever</li>
+                            <li>Unlimited scalability</li>
+                            <li>Work from anywhere</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ Cons</h4>
+                        <ul>
+                            <li>Upfront time investment to create</li>
+                            <li>Need marketing skills</li>
+                            <li>Competitive marketplace</li>
+                            <li>May need updates/support</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <a href="#" class="action-button">Start Creating Digital Products →</a>
+            </div>
+        </div>
+
+        <!-- Rental Properties -->
+        <div class="method-card">
+            <div class="method-header">
+                <div class="method-icon">🏠</div>
+                <div>
+                    <h2>Rental Properties</h2>
+                    <span class="difficulty-badge hard">High Difficulty</span>
+                    <span class="time-badge">⏱️ Long-term (Years)</span>
+                </div>
+            </div>
+            <div class="method-content">
+                <p>Purchase real estate properties and rent them out for monthly income. Can include residential homes, apartments, commercial spaces, or vacation rentals (Airbnb).</p>
+
+                <h3>Types of Rental Income</h3>
+                <ul>
+                    <li><strong>Long-term Rentals:</strong> Traditional 1-year leases</li>
+                    <li><strong>Short-term Rentals:</strong> Airbnb, vacation properties</li>
+                    <li><strong>Commercial Properties:</strong> Office, retail spaces</li>
+                    <li><strong>Storage Units:</strong> Self-storage facilities</li>
+                </ul>
+
+                <h3>Initial Investment</h3>
+                <p>$20,000 - $200,000+ (Down payment, renovations, expenses)</p>
+
+                <h3>Potential Income</h3>
+                <p>$500 - $5,000+/month per property (after expenses)</p>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ Pros</h4>
+                        <ul>
+                            <li>Steady monthly cash flow</li>
+                            <li>Property appreciation over time</li>
+                            <li>Tax benefits and deductions</li>
+                            <li>Hedge against inflation</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ Cons</h4>
+                        <ul>
+                            <li>Large capital requirement</li>
+                            <li>Property maintenance and repairs</li>
+                            <li>Tenant management issues</li>
+                            <li>Market risk and vacancies</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <a href="#" class="action-button">Learn Real Estate Investing →</a>
+            </div>
+        </div>
+
+        <!-- Affiliate Marketing -->
+        <div class="method-card">
+            <div class="method-header">
+                <div class="method-icon">🔗</div>
+                <div>
+                    <h2>Affiliate Marketing</h2>
+                    <span class="difficulty-badge medium">Medium Difficulty</span>
+                    <span class="time-badge">⏱️ Medium-term (6-12 months)</span>
+                </div>
+            </div>
+            <div class="method-content">
+                <p>Promote other people's products or services and earn commissions on sales. Build content (blog, YouTube, social media) that includes affiliate links generating passive income.</p>
+
+                <h3>How to Start</h3>
+                <ul>
+                    <li>Choose a profitable niche you're interested in</li>
+                    <li>Create a blog, YouTube channel, or social media presence</li>
+                    <li>Join affiliate programs (Amazon Associates, ClickBank, etc.)</li>
+                    <li>Create valuable content with affiliate links</li>
+                    <li>Drive traffic through SEO and social media</li>
+                </ul>
+
+                <h3>Initial Investment</h3>
+                <p>$100 - $1,000 (Website, hosting, tools)</p>
+
+                <h3>Potential Income</h3>
+                <p>$0 - $50,000+/month (varies greatly, takes time to build)</p>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ Pros</h4>
+                        <ul>
+                            <li>Low startup cost</li>
+                            <li>No product creation needed</li>
+                            <li>Unlimited income potential</li>
+                            <li>Work from anywhere</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ Cons</h4>
+                        <ul>
+                            <li>Takes 6-12 months to see results</li>
+                            <li>Requires consistent content creation</li>
+                            <li>Competition in popular niches</li>
+                            <li>Commission rates vary</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <a href="#" class="action-button">Start Affiliate Marketing →</a>
+            </div>
+        </div>
+
+        <!-- YouTube Monetization -->
+        <div class="method-card">
+            <div class="method-header">
+                <div class="method-icon">📹</div>
+                <div>
+                    <h2>YouTube Monetization</h2>
+                    <span class="difficulty-badge medium">Medium Difficulty</span>
+                    <span class="time-badge">⏱️ Long-term (1-2 years)</span>
+                </div>
+            </div>
+            <div class="method-content">
+                <p>Create YouTube videos that continue to earn ad revenue long after they're uploaded. Build a library of evergreen content that generates passive income from views.</p>
+
+                <h3>Monetization Requirements</h3>
+                <ul>
+                    <li>1,000 subscribers</li>
+                    <li>4,000 watch hours in the past 12 months</li>
+                    <li>Follow YouTube's monetization policies</li>
+                    <li>Create advertiser-friendly content</li>
+                </ul>
+
+                <h3>Revenue Streams</h3>
+                <ul>
+                    <li><strong>Ad Revenue:</strong> $1-$10 per 1,000 views (CPM)</li>
+                    <li><strong>Sponsorships:</strong> Direct brand deals</li>
+                    <li><strong>Affiliate Links:</strong> In video descriptions</li>
+                    <li><strong>Merchandise:</strong> Sell your own products</li>
+                </ul>
+
+                <h3>Initial Investment</h3>
+                <p>$200 - $2,000 (Camera, mic, editing software)</p>
+
+                <h3>Potential Income</h3>
+                <p>$500 - $100,000+/month (highly variable)</p>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ Pros</h4>
+                        <ul>
+                            <li>Videos earn money for years</li>
+                            <li>Multiple income streams</li>
+                            <li>Build personal brand</li>
+                            <li>Creative and flexible</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ Cons</h4>
+                        <ul>
+                            <li>Takes 1-2 years to build audience</li>
+                            <li>Requires consistent uploads initially</li>
+                            <li>Algorithm changes affect income</li>
+                            <li>Need video production skills</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <a href="#" class="action-button">Start YouTube Channel →</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 IKB. All rights reserved.</p>
+    </footer>
+</body>
+</html>
