@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IKB - Earning Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #764ba2;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: white;
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+        }
+
+        .category-header {
+            padding: 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            transition: 0.5s;
+        }
+
+        .category-card:hover .category-header::before {
+            left: 100%;
+        }
+
+        .passive {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .hustling {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+        }
+
+        .online-business {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+        }
+
+        .investing {
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+        }
+
+        .creative {
+            background: linear-gradient(135deg, #fa709a, #fee140);
+        }
+
+        .skills {
+            background: linear-gradient(135deg, #30cfd0, #330867);
+        }
+
+        .category-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-header p {
+            font-size: 1rem;
+            opacity: 0.95;
+        }
+
+        .category-content {
+            padding: 2rem;
+        }
+
+        .subcategory-list {
+            list-style: none;
+        }
+
+        .subcategory-item {
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s;
+        }
+
+        .subcategory-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .subcategory-item strong {
+            color: #667eea;
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .subcategory-item span {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .view-details-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            transition: opacity 0.3s;
+        }
+
+        .view-details-btn:hover {
+            opacity: 0.9;
+        }
+
+        .disclaimer {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+            border-left: 4px solid #667eea;
+        }
+
+        .disclaimer h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .disclaimer p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        footer p {
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="earning.html">Earning</a></li>
+            <li><a href="study.html">Study</a></li>
+            <li><a href="blogs.html">Blogs</a></li>
+            <li><a href="tips.html">Tips & Tricks</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>💰 Earning Hub</h1>
+        <p class="subtitle">Choose your path to financial freedom</p>
+
+        <div class="categories-grid">
+            <!-- Passive Income -->
+            <div class="category-card">
+                <div class="category-header passive">
+                    <div class="category-icon">💤</div>
+                    <h2>Passive Income</h2>
+                    <p>Earn money while you sleep</p>
+                </div>
+                <div class="category-content">
+                    <ul class="subcategory-list">
+                        <li class="subcategory-item">
+                            <strong>Dividend Investing</strong>
+                            <span>Earn regular income from stock investments</span>
+                        </li>
+                        <li class="subcategory-item">
+                            <strong>Rental Properties</strong>
+                            <span>Real estate income without active work</span>
+                        </li>
+                        <li class="subcategory-item">
+                            <strong>Digital Products</strong>
+                            <span>Sell eBooks, templates, courses once</span>
+                        </li>
+                        <li class="subcategory-item">
+                            <strong>Affiliate Marketing</strong>
+                            <span>Earn commissions on autopilot</span>
+                        </li>
+                        <li class="subcategory-item">
+                            <strong>YouTube Monetization</strong>
+                            <span>Revenue from old videos continuously</span>
+                        </li>
+                    </ul>
+                    <a href="earning-passive.html" class="view-details-btn">Explore Passive Income →</a>
+                </div>
+            </div>
+
+            <!-- Hustling / Active Income -->
+            <div class="category-card">
+                <div class="category-header hustling">
+                    <div class="category-icon">🔥</div>
+                    <h2>Hustling</h2>
+                    <p>Active work for quick money</p>
+                </div>
+                <div class="category-content">
+                    <ul class="subcategory-list">
+                        <li class="subcategory-item">
+                            <strong>Freelancing</strong>
+                            <span>Trade skills for immediate payment</span>
+                        </li>
+                        <li class="subcategory-item">
+                            <strong>Gig Economy</strong>
+                            <span>Uber, DoorDash, TaskRabbit</span>
+                        </li>
+                        <li class="subcategory-item">
+                            <strong>Online Tutoring</strong>
+                            <span>Teach subjects you know well</span>
+                        </li>
+                        <li class="subcategory-item">
+                            <strong>Virtual Assistant</strong>
+                            <span>Help businesses with daily tasks</span>
+                        </li>
+                        <li class="subcategory-item">
+                            <strong>Content Writing</strong>
+                            <span>Write articles, blogs, and copy</span>
+                        </li>
+                    </ul>
+                    <a href="earning-hustling.html" class="view-details-btn">Start Hustling →</a>
+                </div>
+            </div>
+
+            <!-- Online Business -->
+            <div class="category-card">
+                <div class="category-header online-business">
+                    <div class="category-icon">🚀</div>
+                    <h2>Online Business</h2>
+                    <p>Build scalable income streams</p>
+                </div>
+                <div class="category-content">
+                    <ul class="subcategory-list">
+                        <li class="subcategory-item">
+                            <strong>E-commerce Store</strong>
+                            <span>Sell products online globally</span>
+                        </li>
+                        <li class="subcategory-item">
+                            <strong>Dropshipping</strong>
+                            <span>Sell without holding inventory</span>
+                        </li>
+                        <li class="subcategory-item">
+                            <strong>Print on Demand</strong>
+                            <span>Custom products with no upfront cost</span>
+                        </li>
+                        <li class="subcategory-item">
+                            <strong>SaaS Business</strong>
+                            <span>Software as a service platform</span>
+                        </li>
+                        <li class="subcategory-item">
+                            <strong>Amazon FBA</strong>
+                            <span>Fulfillment by Amazon business</span>
+                        </li>
+                    </ul>
+                    <a href="earning-business.html" class="view-details-btn">Build Your Business →</a>
+                </div>
+            </div>
+
+            <!-- Investing -->
+            <div class="category-card">
+                <div class="category-header investing">
+                    <div class="category-icon">📈</div>
+                    <h2>Investing</h2>
+                    <p>Grow wealth through smart investments</p>
+                </div>
+                <div class="category-content">
+                    <ul class="subcategory-list">
+                        <li class="subcategory-item">
+                            <strong>Stock Market</strong>
+                            <span>Long-term wealth building</span>
+                        </li>
+                        <li class="subcategory-item">
+                            <strong>Cryptocurrency</strong>
+                            <span>Digital asset investment</span>
+                        </li>
+                        <li class="subcategory-item">
+                            <strong>Real Estate</strong>
+                            <span>Property investment strategies</span>
+                        </li>
+                        <li class="subcategory-item">
+                            <strong>Index Funds</strong>
+                            <span>Low-risk diversified investing</span>
+                        </li>
+                        <li class="subcategory-item">
+                            <strong>Peer-to-Peer Lending</strong>
+                            <span>Earn interest by lending money</span>
+                        </li>
+                    </ul>
+                    <a href="earning-investing.html" class="view-details-btn">Learn Investing →</a>
+                </div>
+            </div>
+
+            <!-- Creative Money -->
+            <div class="category-card">
+                <div class="category-header creative">
+                    <div class="category-icon">🎨</div>
+                    <h2>Creative Income</h2>
+                    <p>Monetize your creativity</p>
+                </div>
+                <div class="category-content">
+                    <ul class="subcategory-list">
+                        <li class="subcategory-item">
+                            <strong>Graphic Design</strong>
+                            <span>Design logos, brands, graphics</span>
+                        </li>
+                        <li class="subcategory-item">
+                            <strong>Photography</strong>
+                            <span>Sell photos on stock sites</span>
+                        </li>
+                        <li class="subcategory-item">
+                            <strong>Video Editing</strong>
+                            <span>Edit videos for creators</span>
+                        </li>
+                        <li class="subcategory-item">
+                            <strong>Music Production</strong>
+                            <span>Create beats and sell licenses</span>
+                        </li>
+                        <li class="subcategory-item">
+                            <strong>Digital Art / NFTs</strong>
+                            <span>Create and sell digital artwork</span>
+                        </li>
+                    </ul>
+                    <a href="earning-creative.html" class="view-details-btn">Monetize Creativity →</a>
+                </div>
+            </div>
+
+            <!-- Skill-Based -->
+            <div class="category-card">
+                <div class="category-header skills">
+                    <div class="category-icon">💼</div>
+                    <h2>Skill-Based</h2>
+                    <p>Trade expertise for income</p>
+                </div>
+                <div class="category-content">
+                    <ul class="subcategory-list">
+                        <li class="subcategory-item">
+                            <strong>Web Development</strong>
+                            <span>Build websites and applications</span>
+                        </li>
+                        <li class="subcategory-item">
+                            <strong>Consulting</strong>
+                            <span>Advise businesses in your field</span>
+                        </li>
+                        <li class="subcategory-item">
+                            <strong>Coaching</strong>
+                            <span>Help others achieve goals</span>
+                        </li>
+                        <li class="subcategory-item">
+                            <strong>Translation</strong>
+                            <span>Translate documents and content</span>
+                        </li>
+                        <li class="subcategory-item">
+                            <strong>Data Analysis</strong>
+                            <span>Analyze data for insights</span>
+                        </li>
+                    </ul>
+                    <a href="earning-skills.html" class="view-details-btn">Leverage Your Skills →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="disclaimer">
+            <h3>⚠️ Important Information</h3>
+            <p>All earning methods require dedication, learning, and consistent effort. Results vary based on individual skills, market conditions, and time invested. Always research thoroughly before investing money or time. Be cautious of scams and "get rich quick" schemes. Building sustainable income takes patience and persistence. This page provides educational information only and is not financial advice. Consult with professionals for personalized guidance.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 IKB. All rights reserved.</p>
+    </footer>
+</body>
+</html>
