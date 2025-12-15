@@ -65,8 +65,23 @@
             text-align: center;
             color: white;
             font-size: 1.2rem;
-            margin-bottom: 3rem;
+            margin-bottom: 1rem;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .api-badge {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
         }
 
         .converter-container {
@@ -118,6 +133,46 @@
             font-size: 1.3rem;
         }
 
+        .suggestions-container {
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .suggestions-container.active {
+            display: block;
+        }
+
+        .suggestions-label {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .suggestions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .suggestion-chip {
+            background: #f8f9fa;
+            color: #667eea;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid #e9ecef;
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            font-size: 1.1rem;
+        }
+
+        .suggestion-chip:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
         .controls {
             display: flex;
             gap: 1rem;
@@ -156,6 +211,44 @@
             background: #5a6268;
         }
 
+        .mode-toggle {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .mode-btn {
+            padding: 0.5rem 1.5rem;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .mode-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .status-indicator {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .status-indicator.online {
+            color: #28a745;
+        }
+
+        .status-indicator.offline {
+            color: #dc3545;
+        }
+
         .guide-section {
             background: white;
             border-radius: 16px;
@@ -170,46 +263,28 @@
             font-size: 2rem;
         }
 
-        .mapping-grid {
+        .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
             margin-bottom: 2rem;
         }
 
-        .mapping-category {
+        .feature-card {
             background: #f8f9fa;
             padding: 1.5rem;
             border-radius: 8px;
             border-left: 4px solid #667eea;
         }
 
-        .mapping-category h3 {
+        .feature-card h3 {
             color: #667eea;
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
         }
 
-        .mapping-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .mapping-item:last-child {
-            border-bottom: none;
-        }
-
-        .roman-text {
+        .feature-card p {
             color: #666;
-            font-weight: 600;
-        }
-
-        .nepali-text {
-            color: #667eea;
-            font-weight: 600;
-            font-size: 1.2rem;
+            line-height: 1.6;
         }
 
         .example-section {
@@ -270,10 +345,6 @@
             .guide-section {
                 padding: 1.5rem;
             }
-
-            .mapping-grid {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -299,12 +370,29 @@
     <div class="container">
         <h1>🇳🇵 Nepali Unicode Converter</h1>
         <p class="subtitle">Type in Romanized Nepali and get instant नेपाली Unicode conversion</p>
+        <div class="api-badge">
+            <span class="badge">⚡ Powered by Google Input Tools API</span>
+        </div>
 
         <div class="converter-container">
+            <div class="mode-toggle">
+                <button class="mode-btn active" id="smartMode">🚀 Smart Mode (AI)</button>
+                <button class="mode-btn" id="basicMode">📝 Basic Mode</button>
+            </div>
+
+            <div class="status-indicator" id="statusIndicator">
+                <span id="statusText">✓ Google API Ready</span>
+            </div>
+
             <div class="input-section">
                 <h2>📝 Type Romanized Nepali</h2>
                 <textarea id="roman" placeholder="Type in Romanized Nepali here... 
 Example: namaste, ma nepali hu, ramro chha"></textarea>
+            </div>
+
+            <div class="suggestions-container" id="suggestionsContainer">
+                <div class="suggestions-label">💡 Smart Suggestions (Click to use):</div>
+                <div class="suggestions" id="suggestions"></div>
             </div>
 
             <div class="input-section">
@@ -319,187 +407,46 @@ Example: namaste, ma nepali hu, ramro chha"></textarea>
         </div>
 
         <div class="guide-section">
-            <h2>📖 Typing Guide</h2>
+            <h2>✨ Features</h2>
             
-            <div class="mapping-grid">
-                <div class="mapping-category">
-                    <h3>Vowels (स्वर)</h3>
-                    <div class="mapping-item">
-                        <span class="roman-text">a</span>
-                        <span class="nepali-text">अ</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">aa</span>
-                        <span class="nepali-text">आ</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">i</span>
-                        <span class="nepali-text">इ</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">ii</span>
-                        <span class="nepali-text">ई</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">u</span>
-                        <span class="nepali-text">उ</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">uu</span>
-                        <span class="nepali-text">ऊ</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">e</span>
-                        <span class="nepali-text">ए</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">ai</span>
-                        <span class="nepali-text">ऐ</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">o</span>
-                        <span class="nepali-text">ओ</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">au</span>
-                        <span class="nepali-text">औ</span>
-                    </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>🤖 AI-Powered</h3>
+                    <p>Uses Google's machine learning models for accurate context-aware conversion.</p>
                 </div>
 
-                <div class="mapping-category">
-                    <h3>Consonants (व्यञ्जन)</h3>
-                    <div class="mapping-item">
-                        <span class="roman-text">ka</span>
-                        <span class="nepali-text">क</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">kha</span>
-                        <span class="nepali-text">ख</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">ga</span>
-                        <span class="nepali-text">ग</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">gha</span>
-                        <span class="nepali-text">घ</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">nga</span>
-                        <span class="nepali-text">ङ</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">cha</span>
-                        <span class="nepali-text">च</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">chha</span>
-                        <span class="nepali-text">छ</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">ja</span>
-                        <span class="nepali-text">ज</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">jha</span>
-                        <span class="nepali-text">झ</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">nya</span>
-                        <span class="nepali-text">ञ</span>
-                    </div>
+                <div class="feature-card">
+                    <h3>💡 Smart Suggestions</h3>
+                    <p>Get multiple conversion options and choose the best one for your context.</p>
                 </div>
 
-                <div class="mapping-category">
-                    <h3>More Consonants</h3>
-                    <div class="mapping-item">
-                        <span class="roman-text">ta</span>
-                        <span class="nepali-text">त</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">tha</span>
-                        <span class="nepali-text">थ</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">da</span>
-                        <span class="nepali-text">द</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">dha</span>
-                        <span class="nepali-text">ध</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">na</span>
-                        <span class="nepali-text">न</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">pa</span>
-                        <span class="nepali-text">प</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">pha</span>
-                        <span class="nepali-text">फ</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">ba</span>
-                        <span class="nepali-text">ब</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">bha</span>
-                        <span class="nepali-text">भ</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">ma</span>
-                        <span class="nepali-text">म</span>
-                    </div>
+                <div class="feature-card">
+                    <h3>⚡ Real-Time</h3>
+                    <p>Instant conversion as you type with both online and offline modes.</p>
                 </div>
 
-                <div class="mapping-category">
-                    <h3>Additional Letters</h3>
-                    <div class="mapping-item">
-                        <span class="roman-text">ya</span>
-                        <span class="nepali-text">य</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">ra</span>
-                        <span class="nepali-text">र</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">la</span>
-                        <span class="nepali-text">ल</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">wa/va</span>
-                        <span class="nepali-text">व</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">sha</span>
-                        <span class="nepali-text">श</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">sa</span>
-                        <span class="nepali-text">स</span>
-                    </div>
-                    <div class="mapping-item">
-                        <span class="roman-text">ha</span>
-                        <span class="nepali-text">ह</span>
-                    </div>
+                <div class="feature-card">
+                    <h3>📱 Offline Support</h3>
+                    <p>Falls back to basic mode if internet connection is unavailable.</p>
                 </div>
             </div>
 
             <div class="example-section">
-                <h3>💡 Quick Examples</h3>
+                <h3>💡 Try These Examples</h3>
                 <div class="example-item">
-                    <strong>namaste</strong> → नमस्ते
+                    <strong>namaste</strong> → नमस्ते / नमस्कार
                 </div>
                 <div class="example-item">
-                    <strong>dhanyabad</strong> → धन्यबद
+                    <strong>dhanyabad</strong> → धन्यवाद
                 </div>
                 <div class="example-item">
-                    <strong>ma nepali hu</strong> → म नेपली हु
+                    <strong>tapai kasto hunuhunchha</strong> → तपाई कस्तो हुनुहुन्छ
                 </div>
                 <div class="example-item">
-                    <strong>ramro chha</strong> → रम्रो छ
+                    <strong>ma nepali hu</strong> → म नेपाली हुँ
+                </div>
+                <div class="example-item">
+                    <strong>ramro chha</strong> → राम्रो छ
                 </div>
             </div>
         </div>
@@ -510,7 +457,8 @@ Example: namaste, ma nepali hu, ramro chha"></textarea>
     </footer>
 
     <script>
-        const map = {
+        // Basic fallback mapping
+        const basicMap = {
             "aa":"आ","ai":"ऐ","au":"औ",
             "a":"अ","i":"इ","ii":"ई","u":"उ","uu":"ऊ",
             "e":"ए","o":"ओ",
@@ -524,15 +472,20 @@ Example: namaste, ma nepali hu, ramro chha"></textarea>
             " ":" "
         };
 
-        function convert(text) {
+        let isSmartMode = true;
+        let currentSuggestions = [];
+        let typingTimer;
+
+        // Basic conversion function (fallback)
+        function basicConvert(text) {
             let result = "";
             let i = 0;
             while (i < text.length) {
                 let matched = false;
                 for (let len = 4; len > 0; len--) {
                     let part = text.substr(i, len).toLowerCase();
-                    if (map[part]) {
-                        result += map[part];
+                    if (basicMap[part]) {
+                        result += basicMap[part];
                         i += len;
                         matched = true;
                         break;
@@ -546,10 +499,125 @@ Example: namaste, ma nepali hu, ramro chha"></textarea>
             return result;
         }
 
+        // Google Input Tools API conversion
+        async function googleConvert(text) {
+            try {
+                const response = await fetch('https://inputtools.google.com/request?text=' + encodeURIComponent(text) + '&itc=ne-t-i0-und&num=5', {
+                    method: 'GET',
+                });
+                
+                const data = await response.json();
+                
+                if (data && data[1] && data[1][0] && data[1][0][1]) {
+                    return {
+                        success: true,
+                        primary: data[1][0][1][0],
+                        suggestions: data[1][0][1]
+                    };
+                }
+                
+                throw new Error('Invalid response');
+            } catch (error) {
+                console.log('Google API unavailable, using fallback');
+                updateStatus(false);
+                return {
+                    success: false,
+                    primary: basicConvert(text),
+                    suggestions: []
+                };
+            }
+        }
+
+        // Handle input with debouncing
         document.getElementById("roman").addEventListener("input", function () {
-            document.getElementById("unicode").value = convert(this.value);
+            clearTimeout(typingTimer);
+            const text = this.value;
+
+            if (!text.trim()) {
+                document.getElementById("unicode").value = "";
+                document.getElementById("suggestionsContainer").classList.remove("active");
+                return;
+            }
+
+            if (isSmartMode) {
+                // Show basic conversion immediately for instant feedback
+                document.getElementById("unicode").value = basicConvert(text);
+                
+                // Wait for user to stop typing, then get smart suggestions
+                typingTimer = setTimeout(async () => {
+                    const result = await googleConvert(text);
+                    
+                    if (result.success) {
+                        document.getElementById("unicode").value = result.primary;
+                        showSuggestions(result.suggestions);
+                    } else {
+                        document.getElementById("unicode").value = result.primary;
+                        document.getElementById("suggestionsContainer").classList.remove("active");
+                    }
+                }, 500); // Wait 500ms after user stops typing
+            } else {
+                // Basic mode - instant conversion
+                document.getElementById("unicode").value = basicConvert(text);
+                document.getElementById("suggestionsContainer").classList.remove("active");
+            }
         });
 
+        // Show suggestions
+        function showSuggestions(suggestions) {
+            const container = document.getElementById("suggestions");
+            const suggestionsContainer = document.getElementById("suggestionsContainer");
+            
+            if (suggestions && suggestions.length > 1) {
+                container.innerHTML = '';
+                suggestions.forEach((suggestion, index) => {
+                    const chip = document.createElement("div");
+                    chip.className = "suggestion-chip";
+                    chip.textContent = suggestion;
+                    chip.onclick = () => {
+                        document.getElementById("unicode").value = suggestion;
+                    };
+                    container.appendChild(chip);
+                });
+                suggestionsContainer.classList.add("active");
+            } else {
+                suggestionsContainer.classList.remove("active");
+            }
+        }
+
+        // Mode toggle
+        document.getElementById("smartMode").addEventListener("click", function() {
+            isSmartMode = true;
+            this.classList.add("active");
+            document.getElementById("basicMode").classList.remove("active");
+            updateStatus(true);
+        });
+
+        document.getElementById("basicMode").addEventListener("click", function() {
+            isSmartMode = false;
+            this.classList.add("active");
+            document.getElementById("smartMode").classList.remove("active");
+            document.getElementById("suggestionsContainer").classList.remove("active");
+            updateStatus(null);
+        });
+
+        // Update status indicator
+        function updateStatus(online) {
+            const statusText = document.getElementById("statusText");
+            const statusIndicator = document.getElementById("statusIndicator");
+            
+            if (online === null) {
+                statusText.textContent = "📝 Basic Mode Active";
+                statusIndicator.className = "status-indicator";
+            } else if (online) {
+                statusText.textContent = "✓ Google API Ready";
+                statusIndicator.className = "status-indicator online";
+            } else {
+                statusText.textContent = "⚠ Offline Mode (Using Basic Conversion)";
+                statusIndicator.className = "status-indicator offline";
+            }
+        }
+
+        // Copy to clipboard
         function copyToClipboard() {
             const unicodeText = document.getElementById("unicode");
             if (unicodeText.value.trim() === "") {
@@ -561,11 +629,23 @@ Example: namaste, ma nepali hu, ramro chha"></textarea>
             alert("✅ Nepali text copied to clipboard!");
         }
 
+        // Clear all text
         function clearText() {
             document.getElementById("roman").value = "";
             document.getElementById("unicode").value = "";
+            document.getElementById("suggestionsContainer").classList.remove("active");
             document.getElementById("roman").focus();
         }
+
+        // Test API connection on load
+        window.addEventListener('load', async () => {
+            try {
+                const testResult = await googleConvert("namaste");
+                updateStatus(testResult.success);
+            } catch (error) {
+                updateStatus(false);
+            }
+        });
     </script>
 </body>
 </html>
