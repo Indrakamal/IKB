@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nepali Unicode Converter - IKB</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #764ba2;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .converter-container {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            margin-bottom: 2rem;
+        }
+
+        .input-section {
+            margin-bottom: 2rem;
+        }
+
+        .input-section h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 180px;
+            padding: 1.5rem;
+            font-size: 1.1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            resize: vertical;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        #roman {
+            background: #f8f9fa;
+        }
+
+        #unicode {
+            background: #fff;
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            font-size: 1.3rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .guide-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            margin-bottom: 2rem;
+        }
+
+        .guide-section h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .mapping-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .mapping-category {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .mapping-category h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .mapping-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .mapping-item:last-child {
+            border-bottom: none;
+        }
+
+        .roman-text {
+            color: #666;
+            font-weight: 600;
+        }
+
+        .nepali-text {
+            color: #667eea;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .example-section {
+            background: #e7f3ff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        .example-section h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .example-item {
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            transition: transform 0.3s;
+        }
+
+        .back-btn:hover {
+            transform: translateX(-5px);
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        footer p {
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .converter-container,
+            .guide-section {
+                padding: 1.5rem;
+            }
+
+            .mapping-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="earning.html">Earning</a></li>
+            <li><a href="study.html">Study</a></li>
+            <li><a href="blogs.html">Blogs</a></li>
+            <li><a href="tips.html">Tips & Tricks</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <a href="projects.html" class="back-btn" style="margin-left: 2rem;">← Back to Projects</a>
+
+    <div class="container">
+        <h1>🇳🇵 Nepali Unicode Converter</h1>
+        <p class="subtitle">Type in Romanized Nepali and get instant नेपाली Unicode conversion</p>
+
+        <div class="converter-container">
+            <div class="input-section">
+                <h2>📝 Type Romanized Nepali</h2>
+                <textarea id="roman" placeholder="Type in Romanized Nepali here... 
+Example: namaste, ma nepali hu, ramro chha"></textarea>
+            </div>
+
+            <div class="input-section">
+                <h2>✨ नेपाली Unicode Output</h2>
+                <textarea id="unicode" placeholder="नेपाली Unicode will appear here automatically..." readonly></textarea>
+            </div>
+
+            <div class="controls">
+                <button class="btn btn-primary" onclick="copyToClipboard()">📋 Copy Nepali Text</button>
+                <button class="btn btn-secondary" onclick="clearText()">🗑️ Clear All</button>
+            </div>
+        </div>
+
+        <div class="guide-section">
+            <h2>📖 Typing Guide</h2>
+            
+            <div class="mapping-grid">
+                <div class="mapping-category">
+                    <h3>Vowels (स्वर)</h3>
+                    <div class="mapping-item">
+                        <span class="roman-text">a</span>
+                        <span class="nepali-text">अ</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">aa</span>
+                        <span class="nepali-text">आ</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">i</span>
+                        <span class="nepali-text">इ</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">ii</span>
+                        <span class="nepali-text">ई</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">u</span>
+                        <span class="nepali-text">उ</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">uu</span>
+                        <span class="nepali-text">ऊ</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">e</span>
+                        <span class="nepali-text">ए</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">ai</span>
+                        <span class="nepali-text">ऐ</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">o</span>
+                        <span class="nepali-text">ओ</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">au</span>
+                        <span class="nepali-text">औ</span>
+                    </div>
+                </div>
+
+                <div class="mapping-category">
+                    <h3>Consonants (व्यञ्जन)</h3>
+                    <div class="mapping-item">
+                        <span class="roman-text">ka</span>
+                        <span class="nepali-text">क</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">kha</span>
+                        <span class="nepali-text">ख</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">ga</span>
+                        <span class="nepali-text">ग</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">gha</span>
+                        <span class="nepali-text">घ</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">nga</span>
+                        <span class="nepali-text">ङ</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">cha</span>
+                        <span class="nepali-text">च</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">chha</span>
+                        <span class="nepali-text">छ</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">ja</span>
+                        <span class="nepali-text">ज</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">jha</span>
+                        <span class="nepali-text">झ</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">nya</span>
+                        <span class="nepali-text">ञ</span>
+                    </div>
+                </div>
+
+                <div class="mapping-category">
+                    <h3>More Consonants</h3>
+                    <div class="mapping-item">
+                        <span class="roman-text">ta</span>
+                        <span class="nepali-text">त</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">tha</span>
+                        <span class="nepali-text">थ</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">da</span>
+                        <span class="nepali-text">द</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">dha</span>
+                        <span class="nepali-text">ध</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">na</span>
+                        <span class="nepali-text">न</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">pa</span>
+                        <span class="nepali-text">प</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">pha</span>
+                        <span class="nepali-text">फ</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">ba</span>
+                        <span class="nepali-text">ब</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">bha</span>
+                        <span class="nepali-text">भ</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">ma</span>
+                        <span class="nepali-text">म</span>
+                    </div>
+                </div>
+
+                <div class="mapping-category">
+                    <h3>Additional Letters</h3>
+                    <div class="mapping-item">
+                        <span class="roman-text">ya</span>
+                        <span class="nepali-text">य</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">ra</span>
+                        <span class="nepali-text">र</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">la</span>
+                        <span class="nepali-text">ल</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">wa/va</span>
+                        <span class="nepali-text">व</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">sha</span>
+                        <span class="nepali-text">श</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">sa</span>
+                        <span class="nepali-text">स</span>
+                    </div>
+                    <div class="mapping-item">
+                        <span class="roman-text">ha</span>
+                        <span class="nepali-text">ह</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="example-section">
+                <h3>💡 Quick Examples</h3>
+                <div class="example-item">
+                    <strong>namaste</strong> → नमस्ते
+                </div>
+                <div class="example-item">
+                    <strong>dhanyabad</strong> → धन्यबद
+                </div>
+                <div class="example-item">
+                    <strong>ma nepali hu</strong> → म नेपली हु
+                </div>
+                <div class="example-item">
+                    <strong>ramro chha</strong> → रम्रो छ
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 IKB. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const map = {
+            "aa":"आ","ai":"ऐ","au":"औ",
+            "a":"अ","i":"इ","ii":"ई","u":"उ","uu":"ऊ",
+            "e":"ए","o":"ओ",
+            "ka":"क","kha":"ख","ga":"ग","gha":"घ","nga":"ङ",
+            "cha":"च","chha":"छ","ja":"ज","jha":"झ","nya":"ञ",
+            "ta":"त","tha":"थ","da":"द","dha":"ध","na":"न",
+            "pa":"प","pha":"फ","ba":"ब","bha":"भ","ma":"म",
+            "ya":"य","ra":"र","la":"ल","wa":"व","va":"व",
+            "sha":"श","sa":"स","ha":"ह",
+            "k":"क","g":"ग","n":"न","m":"म","s":"स","h":"ह",
+            " ":" "
+        };
+
+        function convert(text) {
+            let result = "";
+            let i = 0;
+            while (i < text.length) {
+                let matched = false;
+                for (let len = 4; len > 0; len--) {
+                    let part = text.substr(i, len).toLowerCase();
+                    if (map[part]) {
+                        result += map[part];
+                        i += len;
+                        matched = true;
+                        break;
+                    }
+                }
+                if (!matched) {
+                    result += text[i];
+                    i++;
+                }
+            }
+            return result;
+        }
+
+        document.getElementById("roman").addEventListener("input", function () {
+            document.getElementById("unicode").value = convert(this.value);
+        });
+
+        function copyToClipboard() {
+            const unicodeText = document.getElementById("unicode");
+            if (unicodeText.value.trim() === "") {
+                alert("No text to copy! Please type something first.");
+                return;
+            }
+            unicodeText.select();
+            document.execCommand("copy");
+            alert("✅ Nepali text copied to clipboard!");
+        }
+
+        function clearText() {
+            document.getElementById("roman").value = "";
+            document.getElementById("unicode").value = "";
+            document.getElementById("roman").focus();
+        }
+    </script>
+</body>
+</html>
