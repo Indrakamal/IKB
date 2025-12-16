@@ -616,11 +616,17 @@ Example: namaste, ma nepali hu, ramro chha"></textarea>
                 <div id="uploadResults" style="display: none;">
                     <h3 style="color: #667eea; margin-bottom: 1rem;">Extracted Dictionary Entries:</h3>
                     <div style="max-height: 400px; overflow-y: auto; margin-bottom: 1rem;" id="uploadResultsList"></div>
-                    <div style="text-align: center;">
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
                         <button class="btn btn-primary" onclick="loadExtractedDictionary()">
-                            ✅ Load into Dictionary
+                            ✅ Load into Dictionary (Temporary)
+                        </button>
+                        <button class="btn btn-primary" onclick="downloadDictionaryFile()" style="background: linear-gradient(135deg, #28a745, #20c997);">
+                            💾 Download Dictionary File
                         </button>
                     </div>
+                    <p style="text-align: center; color: #666; margin-top: 1rem; font-size: 0.9rem;">
+                        💡 Download the file and send it to me - I'll integrate it permanently into your website!
+                    </p>
                 </div>
             </div>
         </div>
@@ -1011,6 +1017,35 @@ Example: namaste, ma nepali hu, ramro chha"></textarea>
             Object.assign(dictionary, extractedDictionary);
             alert(`✅ Successfully loaded ${Object.keys(extractedDictionary).length} words into the dictionary!\n\nGo to the Dictionary tab to search them.`);
             switchTab('dictionary');
+        }
+
+        function downloadDictionaryFile() {
+            // Create a formatted JSON file
+            const dictionaryData = {
+                metadata: {
+                    totalWords: Object.keys(extractedDictionary).length,
+                    extractedDate: new Date().toISOString(),
+                    source: "Nepali-English Dictionary PDF",
+                    format: "English-Nepali pairs with definitions"
+                },
+                dictionary: extractedDictionary
+            };
+
+            // Convert to JSON string with nice formatting
+            const jsonString = JSON.stringify(dictionaryData, null, 2);
+
+            // Create downloadable file
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `nepali-dictionary-${Object.keys(extractedDictionary).length}-words.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+
+            alert(`✅ Dictionary file downloaded!\n\n📁 File: nepali-dictionary-${Object.keys(extractedDictionary).length}-words.json\n\n📤 Send this file to me and I'll integrate it permanently into your website!`);
         }
 
         function showUploadStatus(message, type) {
