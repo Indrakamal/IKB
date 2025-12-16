@@ -929,39 +929,45 @@ Example: namaste, ma nepali hu, ramro chha"></textarea>
             extractedDictionary = {};
             const lines = text.split('\n');
             
-            lines.forEach((line, index) => {
-                const match1 = line.match(/([a-zA-Z\s]+)\s*[-–—→]\s*([ऀ-ॿ\s]+)/);
-                if (match1) {
-                    const parts = line.split(/[-–—→]/);
-                    if (parts.length >= 2) {
-                        const english = parts[0].trim().toLowerCase();
-                        const nepali = parts[1].trim();
-                        
-                        if (english && nepali && /[ऀ-ॿ]/.test(nepali)) {
-                            extractedDictionary[english] = {
-                                nepali: nepali,
-                                type: "word",
-                                definition: "Extracted from PDF"
-                            };
-                        }
-                    }
-                }
+            // This dictionary is Nepali->English, so we'll reverse it to English->Nepali
+            lines.forEach((line) => {
+                if (!line.trim()) return;
                 
-                const pattern2 = /^([a-zA-Z\s]{2,30})$/;
-                if (pattern2.test(line) && index + 1 < lines.length) {
-                    const nextLine = lines[index + 1];
-                    if (/[ऀ-ॿ]/.test(nextLine)) {
-                        const english = line.trim().toLowerCase();
-                        const nepali = nextLine.trim();
-                        
-                        if (english && nepali) {
-                            extractedDictionary[english] = {
-                                nepali: nepali,
-                                type: "word",
-                                definition: "Extracted from PDF"
+                // Pattern: romanized_nepali devanagari_nepali type english_definition
+                // Example: aba अब adv. now, from now on
+                const match = line.match(/^([a-z\s]+)\s+([ऀ-ॿ\s]+)\s+(n\.|adj\.|adv\.|v\.i\.|v\.t\.|comp\.|conj\.|interj\.|prep\.|pron\.)\s+(.+)$/i);
+                
+                if (match) {
+                    const romanizedNepali = match[1].trim();
+                    const devanagariNepali = match[2].trim();
+                    const wordType = match[3].trim();
+                    const englishDefinition = match[4].trim();
+                    
+                    // Extract main English words from definition (first few words usually)
+                    const englishWords = englishDefinition.split(',')[0].split(' ').slice(0, 3).join(' ').toLowerCase();
+                    
+                    // Store by English word
+                    if (englishWords && devanagariNepali) {
+                        extractedDictionary[englishWords] = {
+                            nepali: devanagariNepali,
+                            type: wordType,
+                            definition: englishDefinition,
+                            romanized: romanizedNepali
+                        };
+                    }
+                    
+                    // Also store common single English words from the definition
+                    const words = englishDefinition.toLowerCase().replace(/[,;()]/g, '').split(' ');
+                    words.forEach(word => {
+                        if (word.length > 3 && !extractedDictionary[word]) {
+                            extractedDictionary[word] = {
+                                nepali: devanagariNepali,
+                                type: wordType,
+                                definition: englishDefinition,
+                                romanized: romanizedNepali
                             };
                         }
-                    }
+                    });
                 }
             });
         }
@@ -979,9 +985,16 @@ Example: namaste, ma nepali hu, ramro chha"></textarea>
             const entries = Object.entries(extractedDictionary).slice(0, 100);
             
             resultsList.innerHTML = entries.map(([english, data]) => `
-                <div style="background: #f8f9fa; padding: 1rem; margin-bottom: 0.5rem; border-radius: 8px; border-left: 4px solid #667eea; display: flex; justify-content: space-between;">
-                    <span style="color: #667eea; font-weight: 600;">${english}</span>
-                    <span style="color: #764ba2; font-weight: 600; font-family: 'Noto Sans Devanagari', sans-serif;">${data.nepali}</span>
+                <div style="background: #f8f9fa; padding: 1rem; margin-bottom: 0.5rem; border-radius: 8px; border-left: 4px solid #667eea;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                        <span style="color: #667eea; font-weight: 600; font-size: 1.1rem;">${english}</span>
+                        <div>
+                            <span style="background: #667eea; color: white; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.8rem; margin-right: 0.5rem;">${data.type}</span>
+                            <span style="color: #764ba2; font-weight: 600; font-family: 'Noto Sans Devanagari', sans-serif; font-size: 1.2rem;">${data.nepali}</span>
+                        </div>
+                    </div>
+                    <div style="color: #666; font-size: 0.9rem;">${data.definition}</div>
+                    ${data.romanized ? `<div style="color: #999; font-size: 0.85rem; margin-top: 0.3rem;">Romanized: ${data.romanized}</div>` : ''}
                 </div>
             `).join('');
             
