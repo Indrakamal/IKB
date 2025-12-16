@@ -511,6 +511,9 @@
             <button class="tab-btn" onclick="switchTab('dictionary')">
                 📚 English-Nepali Dictionary
             </button>
+            <button class="tab-btn" onclick="switchTab('uploader')">
+                📤 Upload PDF Dictionary
+            </button>
         </div>
 
         <div id="converter" class="tab-content active">
@@ -586,13 +589,52 @@ Example: namaste, ma nepali hu, ramro chha"></textarea>
                 </div>
             </div>
         </div>
+
+        <div id="uploader" class="tab-content">
+            <div class="dictionary-container">
+                <h2 style="color: #667eea; margin-bottom: 1.5rem; text-align: center;">
+                    📤 Upload PDF Dictionary
+                </h2>
+
+                <div style="background: #fff3cd; padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; border-left: 4px solid #856404;">
+                    <h3 style="color: #856404; margin-bottom: 0.5rem;">📋 Instructions:</h3>
+                    <p style="color: #856404; line-height: 1.6; margin-bottom: 0.5rem;">1. Upload your English-Nepali dictionary PDF file</p>
+                    <p style="color: #856404; line-height: 1.6; margin-bottom: 0.5rem;">2. The tool will extract text and find dictionary entries</p>
+                    <p style="color: #856404; line-height: 1.6; margin-bottom: 0.5rem;">3. Review the extracted words</p>
+                    <p style="color: #856404; line-height: 1.6;">4. Click "Load into Dictionary" to add them permanently</p>
+                </div>
+
+                <div style="border: 3px dashed #667eea; border-radius: 12px; padding: 3rem; text-align: center; cursor: pointer; transition: all 0.3s; background: #f8f9fa; margin-bottom: 2rem;" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">📄</div>
+                    <h3 style="color: #667eea;">Click to Upload PDF or Drag & Drop</h3>
+                    <p style="margin-top: 0.5rem; color: #666;">Upload your English-Nepali dictionary PDF file</p>
+                    <input type="file" id="fileInput" accept=".pdf" onchange="handleFileSelect(event)" style="display: none;">
+                </div>
+
+                <div id="uploadStatus"></div>
+
+                <div id="uploadResults" style="display: none;">
+                    <h3 style="color: #667eea; margin-bottom: 1rem;">Extracted Dictionary Entries:</h3>
+                    <div style="max-height: 400px; overflow-y: auto; margin-bottom: 1rem;" id="uploadResultsList"></div>
+                    <div style="text-align: center;">
+                        <button class="btn btn-primary" onclick="loadExtractedDictionary()">
+                            ✅ Load into Dictionary
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <footer>
         <p>© 2025 IKB. All rights reserved.</p>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        
+        let extractedDictionary = {};
         const dictionary = {
             "hello": {nepali: "नमस्ते", type: "greeting", definition: "A common greeting used in Nepal", example: "Hello, how are you? → नमस्ते, तपाई कस्तो हुनुहुन्छ?"},
             "namaste": {nepali: "नमस्ते", type: "greeting", definition: "Traditional Nepali greeting", example: "Namaste! → नमस्ते!"},
@@ -824,6 +866,156 @@ Example: namaste, ma nepali hu, ramro chha"></textarea>
                 updateStatus(false);
             }
         });
+
+        // PDF Upload Functions
+        const uploadArea = document.getElementById('uploadArea');
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.background = '#d1ecf1';
+            uploadArea.style.borderColor = '#0c5460';
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.background = '#f8f9fa';
+            uploadArea.style.borderColor = '#667eea';
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.background = '#f8f9fa';
+            uploadArea.style.borderColor = '#667eea';
+            const file = e.dataTransfer.files[0];
+            if (file && file.type === 'application/pdf') {
+                processPDF(file);
+            } else {
+                showUploadStatus('Please upload a PDF file', 'error');
+            }
+        });
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                processPDF(file);
+            }
+        }
+
+        async function processPDF(file) {
+            showUploadStatus('Processing PDF... Please wait', 'info');
+            
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+                let fullText = '';
+                
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const textContent = await page.getTextContent();
+                    const pageText = textContent.items.map(item => item.str).join(' ');
+                    fullText += pageText + '\n';
+                }
+                
+                parseDictionaryText(fullText);
+                showUploadStatus(`✅ Successfully extracted ${Object.keys(extractedDictionary).length} words!`, 'success');
+                displayUploadResults();
+                
+            } catch (error) {
+                console.error('Error processing PDF:', error);
+                showUploadStatus('❌ Error processing PDF. Please check the file format.', 'error');
+            }
+        }
+
+        function parseDictionaryText(text) {
+            extractedDictionary = {};
+            const lines = text.split('\n');
+            
+            lines.forEach((line, index) => {
+                const match1 = line.match(/([a-zA-Z\s]+)\s*[-–—→]\s*([ऀ-ॿ\s]+)/);
+                if (match1) {
+                    const parts = line.split(/[-–—→]/);
+                    if (parts.length >= 2) {
+                        const english = parts[0].trim().toLowerCase();
+                        const nepali = parts[1].trim();
+                        
+                        if (english && nepali && /[ऀ-ॿ]/.test(nepali)) {
+                            extractedDictionary[english] = {
+                                nepali: nepali,
+                                type: "word",
+                                definition: "Extracted from PDF"
+                            };
+                        }
+                    }
+                }
+                
+                const pattern2 = /^([a-zA-Z\s]{2,30})$/;
+                if (pattern2.test(line) && index + 1 < lines.length) {
+                    const nextLine = lines[index + 1];
+                    if (/[ऀ-ॿ]/.test(nextLine)) {
+                        const english = line.trim().toLowerCase();
+                        const nepali = nextLine.trim();
+                        
+                        if (english && nepali) {
+                            extractedDictionary[english] = {
+                                nepali: nepali,
+                                type: "word",
+                                definition: "Extracted from PDF"
+                            };
+                        }
+                    }
+                }
+            });
+        }
+
+        function displayUploadResults() {
+            const resultsList = document.getElementById('uploadResultsList');
+            const results = document.getElementById('uploadResults');
+            
+            if (Object.keys(extractedDictionary).length === 0) {
+                showUploadStatus('❌ No dictionary entries found. The PDF format might not be compatible.', 'error');
+                return;
+            }
+            
+            results.style.display = 'block';
+            const entries = Object.entries(extractedDictionary).slice(0, 100);
+            
+            resultsList.innerHTML = entries.map(([english, data]) => `
+                <div style="background: #f8f9fa; padding: 1rem; margin-bottom: 0.5rem; border-radius: 8px; border-left: 4px solid #667eea; display: flex; justify-content: space-between;">
+                    <span style="color: #667eea; font-weight: 600;">${english}</span>
+                    <span style="color: #764ba2; font-weight: 600; font-family: 'Noto Sans Devanagari', sans-serif;">${data.nepali}</span>
+                </div>
+            `).join('');
+            
+            if (Object.keys(extractedDictionary).length > 100) {
+                resultsList.innerHTML += `
+                    <div style="text-align: center; padding: 1rem; color: #666;">
+                        ... and ${Object.keys(extractedDictionary).length - 100} more entries
+                    </div>
+                `;
+            }
+        }
+
+        function loadExtractedDictionary() {
+            Object.assign(dictionary, extractedDictionary);
+            alert(`✅ Successfully loaded ${Object.keys(extractedDictionary).length} words into the dictionary!\n\nGo to the Dictionary tab to search them.`);
+            switchTab('dictionary');
+        }
+
+        function showUploadStatus(message, type) {
+            const status = document.getElementById('uploadStatus');
+            const colors = {
+                success: {bg: '#d4edda', text: '#155724'},
+                error: {bg: '#f8d7da', text: '#721c24'},
+                info: {bg: '#d1ecf1', text: '#0c5460'}
+            };
+            status.style.padding = '1rem';
+            status.style.borderRadius = '8px';
+            status.style.marginTop = '1rem';
+            status.style.textAlign = 'center';
+            status.style.background = colors[type].bg;
+            status.style.color = colors[type].text;
+            status.textContent = message;
+            status.style.display = 'block';
+        }
     </script>
 </body>
 </html>
