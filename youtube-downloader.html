@@ -382,7 +382,18 @@
             </div>
 
             <div class="input-group">
-                <label>🎧 Audio Quality</label>
+                <label>🎵 Download Format</label>
+                <div class="quality-selector">
+                    <button class="quality-btn active" data-format="mp3" onclick="selectFormat('mp3')">MP3 (Converted)</button>
+                    <button class="quality-btn" data-format="original" onclick="selectFormat('original')">Original Audio (No Convert)</button>
+                </div>
+                <p style="color: #666; font-size: 0.85rem; margin-top: 0.5rem;">
+                    💡 Original keeps the audio in its native format (usually M4A/OPUS/WEBM) - higher quality, no conversion loss
+                </p>
+            </div>
+
+            <div class="input-group" id="qualitySection">
+                <label>🎧 MP3 Quality</label>
                 <div class="quality-selector">
                     <button class="quality-btn active" data-quality="0" onclick="selectQuality(0)">Best (320kbps)</button>
                     <button class="quality-btn" data-quality="5" onclick="selectQuality(5)">High (192kbps)</button>
@@ -454,10 +465,27 @@
 
     <script>
         let selectedQuality = 0;
+        let selectedFormat = 'mp3';
+
+        function selectFormat(format) {
+            selectedFormat = format;
+            document.querySelectorAll('[data-format]').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show/hide quality selector for MP3
+            const qualitySection = document.getElementById('qualitySection');
+            if (format === 'mp3') {
+                qualitySection.style.display = 'block';
+            } else {
+                qualitySection.style.display = 'none';
+            }
+        }
 
         function selectQuality(quality) {
             selectedQuality = quality;
-            document.querySelectorAll('.quality-btn').forEach(btn => {
+            document.querySelectorAll('[data-quality]').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
@@ -482,31 +510,61 @@
             const addMetadata = document.getElementById('addMetadata').checked;
             const convertThumbnail = document.getElementById('convertThumbnail').checked;
 
-            let command = 'yt-dlp -f bestaudio \\\n';
-            command += '  -x --audio-format mp3 \\\n';
-            command += `  --audio-quality ${selectedQuality} \\\n`;
+            let command = '';
             
-            if (downloadPath) {
-                command += `  -o "${downloadPath}/%(title)s.%(ext)s" \\\n`;
+            if (selectedFormat === 'original') {
+                // Original audio - no conversion
+                command = 'yt-dlp -f bestaudio \\\n';
+                
+                if (downloadPath) {
+                    command += `  -o "${downloadPath}/%(title)s.%(ext)s" \\\n`;
+                }
+                
+                if (embedThumbnail) {
+                    command += '  --embed-thumbnail \\\n';
+                }
+                
+                if (addMetadata) {
+                    command += '  --add-metadata \\\n';
+                }
+                
+                if (convertThumbnail) {
+                    command += '  --convert-thumbnails jpg \\\n';
+                }
+                
+                if (cropThumbnail && embedThumbnail) {
+                    command += '  --ppa "ThumbnailsConvertor:-vf crop=ih:ih" \\\n';
+                }
+                
+                command += `  "${url}"`;
+            } else {
+                // MP3 conversion
+                command = 'yt-dlp -f bestaudio \\\n';
+                command += '  -x --audio-format mp3 \\\n';
+                command += `  --audio-quality ${selectedQuality} \\\n`;
+                
+                if (downloadPath) {
+                    command += `  -o "${downloadPath}/%(title)s.%(ext)s" \\\n`;
+                }
+                
+                if (embedThumbnail) {
+                    command += '  --embed-thumbnail \\\n';
+                }
+                
+                if (addMetadata) {
+                    command += '  --add-metadata \\\n';
+                }
+                
+                if (convertThumbnail) {
+                    command += '  --convert-thumbnails jpg \\\n';
+                }
+                
+                if (cropThumbnail && embedThumbnail) {
+                    command += '  --ppa "ThumbnailsConvertor:-vf crop=ih:ih" \\\n';
+                }
+                
+                command += `  "${url}"`;
             }
-            
-            if (embedThumbnail) {
-                command += '  --embed-thumbnail \\\n';
-            }
-            
-            if (addMetadata) {
-                command += '  --add-metadata \\\n';
-            }
-            
-            if (convertThumbnail) {
-                command += '  --convert-thumbnails jpg \\\n';
-            }
-            
-            if (cropThumbnail && embedThumbnail) {
-                command += '  --ppa "ThumbnailsConvertor:-vf crop=ih:ih" \\\n';
-            }
-            
-            command += `  "${url}"`;
 
             document.getElementById('generatedCommand').textContent = command;
             document.getElementById('commandDisplay').classList.add('show');
