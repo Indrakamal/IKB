@@ -362,6 +362,26 @@
             </div>
 
             <div class="input-group">
+                <label>📂 Download Folder (Optional)</label>
+                <input 
+                    type="text" 
+                    class="url-input" 
+                    id="downloadPath" 
+                    placeholder="e.g., ~/Music or ~/Downloads (leave empty for current folder)"
+                >
+                <p style="color: #666; font-size: 0.85rem; margin-top: 0.5rem;">
+                    💡 Tip: Use <code style="background: #f8f9fa; padding: 0.2rem 0.4rem; border-radius: 3px;">~/Music</code> or <code style="background: #f8f9fa; padding: 0.2rem 0.4rem; border-radius: 3px;">~/Downloads</code>
+                </p>
+            </div>
+
+            <div class="input-group">
+                <label>🎧 Audio Quality</label>url-input" 
+                    id="youtubeUrl" 
+                    placeholder="Paste YouTube URL here... (e.g., https://youtube.com/watch?v=...)"
+                >
+            </div>
+
+            <div class="input-group">
                 <label>🎧 Audio Quality</label>
                 <div class="quality-selector">
                     <button class="quality-btn active" data-quality="0" onclick="selectQuality(0)">Best (320kbps)</button>
@@ -378,6 +398,12 @@
                         <h4>Embed Thumbnail</h4>
                         <p>Album art in MP3</p>
                         <input type="checkbox" id="embedThumbnail" checked style="margin-top: 0.5rem;">
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">✂️</div>
+                        <h4>Crop Thumbnail</h4>
+                        <p>Remove black borders</p>
+                        <input type="checkbox" id="cropThumbnail" checked style="margin-top: 0.5rem;">
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">📋</div>
@@ -439,6 +465,7 @@
 
         function generateCommand() {
             const url = document.getElementById('youtubeUrl').value.trim();
+            const downloadPath = document.getElementById('downloadPath').value.trim();
             
             if (!url) {
                 alert('❌ Please enter a YouTube URL');
@@ -451,12 +478,17 @@
             }
 
             const embedThumbnail = document.getElementById('embedThumbnail').checked;
+            const cropThumbnail = document.getElementById('cropThumbnail').checked;
             const addMetadata = document.getElementById('addMetadata').checked;
             const convertThumbnail = document.getElementById('convertThumbnail').checked;
 
             let command = 'yt-dlp -f bestaudio \\\n';
             command += '  -x --audio-format mp3 \\\n';
             command += `  --audio-quality ${selectedQuality} \\\n`;
+            
+            if (downloadPath) {
+                command += `  -o "${downloadPath}/%(title)s.%(ext)s" \\\n`;
+            }
             
             if (embedThumbnail) {
                 command += '  --embed-thumbnail \\\n';
@@ -470,12 +502,15 @@
                 command += '  --convert-thumbnails jpg \\\n';
             }
             
+            if (cropThumbnail && embedThumbnail) {
+                command += '  --ppa "ThumbnailsConvertor:-vf crop=ih:ih" \\\n';
+            }
+            
             command += `  "${url}"`;
 
             document.getElementById('generatedCommand').textContent = command;
             document.getElementById('commandDisplay').classList.add('show');
 
-            // Scroll to command
             document.getElementById('commandDisplay').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
